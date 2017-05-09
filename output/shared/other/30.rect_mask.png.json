@@ -1,0 +1,5 @@
+{
+  "name": "rect_mask",
+  "widget": [ ["Panel",{"width":200,"height":200,"borderWidth":50,"style":{"borderColor":"#ccc","opacity":"1"}}] ],
+  "scene": [ ["Panel",{"data-group.optid":"pinp/blogs/step1","width":200,"height":200,"borderWidth":50,"style":{"borderColor":"#ccc","opacity":"1"}}]]
+}

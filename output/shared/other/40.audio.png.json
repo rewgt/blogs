@@ -1,0 +1,9 @@
+{
+  "name":"audio",
+  "widget":[ ["rewgt.PlayShell",{"klass":"default-hidden"}],
+    ["Audio",{"key":"player","src":"lib/res/horse.mp3","autoPlay":"","loop":"","preload":"auto","muted":"","controls":"controls"}]
+  ],
+  "scene":[ ["rewgt.PlayShell",{"data-group.optid":"pinp/blogs/steps","klass":"default-hidden"}],
+    ["Audio",{"key":"player","src":"lib/res/horse.mp3","autoPlay":"","loop":"","preload":"auto","muted":"","controls":"controls"}]
+  ]
+}

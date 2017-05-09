@@ -1,0 +1,9 @@
+{
+  "name":"pinp/blogs/steps",
+  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"line1"}],
+    ["RefSpan",{ "$":".pinp.charts.line", "key":"line1",
+      "style":{"width":"100%","height":"100%"},
+      "html.":"labels=One,Two,Three,Four,Five,Six,Seven\ntitle.text=\nlegend.display=true\nscales.yAxes.0.stacked=false\nscales.yAxes.0.gridLines.display=true\nscales.xAxes.0.gridLines.display=true\n---\n\nlabel=Item A\nfill=true\nlineTension=0.4\nborderWidth=2\n65 59 80 81 56 55 40\n---\nlabel=Item B\nfill=false\nlineTension=0\nborderWidth=2\n75 89 70 91 40 48 32\n"
+    }]
+  ]
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Static text editor</title>
+
+<link rel="stylesheet" type="text/css" href="output/popline/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="output/css/base.css" />
+
+<link rel="stylesheet" type="text/css" href="output/popline/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="output/popline/themes/popclip.css" />
+<link rel="stylesheet" type="text/css" href="output/popline/css/page.css" />
+
+<style>
+body {
+  background-color: #fff;
+  font-size: 15px;
+}
+
+.editor {
+  width: 100%;
+  height: 100%;
+}
+#txt-widget {
+  margin: 0 0 0 1%;
+  width: 82%;
+  border: 1px dotted #eee;
+  min-height: 150px;
+}
+#txt-html {
+  margin: 0 0 0 1%;
+  width: 82%;
+}
+</style>
+</head>
+
+<body>
+
+<div style='text-align:center; margin:10px; padding:0 16% 0 0'>
+  <input type='radio' name='page' id='pg-popline' checked> <label for='pg-popline'>Popline</label>&nbsp;&nbsp;&nbsp;
+  <input type='radio' id='pg-html' name='page'> <label for='pg-html'>HTML</label>&nbsp;<span style='margin:0px 30px'>&nbsp;</span>
+  <button id='btn-cancel'>Cancel</button>
+</div>
+
+<div id='txt-widget' style='display:block'>
+  <div class='editor' contenteditable='true'></div>
+</div>
+
+<div id='txt-html' style='display:none'>
+  <textarea style='width:100%; min-height:150px; font-family:"Courier New",Verdana,monospace'></textarea>
+</div>
+
+<script src="output/popline/scripts/jquery.min.js"></script>
+<script src="output/popline/scripts/jquery.popline.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.link.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.blockquote.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.decoration.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.list.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.justify.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.blockformat.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.social.js"></script>
+<script src="output/popline/scripts/plugins/jquery.popline.backcolor.js"></script>
+
+<script src='output/js/edit_static.js'></script>
+
+</body>
+</html>

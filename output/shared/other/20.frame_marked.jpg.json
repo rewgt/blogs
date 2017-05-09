@@ -1,0 +1,9 @@
+{
+  "name": "frame_marked",
+  "widget": [ ["Panel",{"width":160,"height":80,"klass":"round_mask-big round0-default-round2 dashed-solid-dotted no_shadow-lb-rb-rt-lt nowrap-default-wrap_reverse visible-auto-hidden","borderWidth":2,"style":{"borderColor":"#ccc","opacity":"1"}}],
+    ["MarkedDiv",{"klass":"default-large-small align_center-right-default p1-p2-p3-p0 self_center-start-end-stretch-default","style":{"color":"#222"},"width":0.9999,"html.":"Markdown"}]
+  ],
+  "scene": [ ["Panel",{"data-group.optid":"pinp/blogs/step1","width":160,"height":80,"klass":"round_mask-big round0-default-round2 dashed-solid-dotted no_shadow-lb-rb-rt-lt nowrap-default-wrap_reverse visible-auto-hidden","borderWidth":2,"style":{"borderColor":"#ccc","opacity":"1"}}],
+    ["MarkedDiv",{"data-is.ground":"1","klass":"default-large-small align_center-right-default p1-p2-p3-p0 self_center-start-end-stretch-default","style":{"color":"#222"},"width":0.9999,"html.":"Markdown"}]
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "image",
+  "widget": [["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":8,"top":8,"width":60,"height":60,"style":{"strokeColor":"rgba(0,0,0,0)","fillColor":"rgba(0,0,0,0)"},"svg.cfg":[0,[],"lib/res/rect2.svg.json"]}],["MarkedDiv",{"html.":"","width":0.9999,"height":0.9999,"klass":"default-large-small p1-p2-p3-p0 align_center-right-default","margin":0,"key":"txt","style":{"background":"url(lib/res/addPicture.jpg) no-repeat 0% 0% / 100% 100%"}}]],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":60,"height":60}],[["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":0,"top":0,"width":0.9999,"height":0.9999,"style":{"strokeColor":"rgba(0,0,0,0)","fillColor":"rgba(0,0,0,0)"},"svg.cfg":[0,[],"lib/res/rect2.svg.json"]}],["MarkedDiv",{"html.":"","width":0.9999,"height":0.9999,"klass":"default-large-small p1-p2-p3-p0 align_center-right-default","margin":0,"key":"txt","data-group.optid":"pinp/blogs/step4","style":{"background":"url(lib/res/addPicture.jpg) no-repeat 0% 0% / 100% 100%"}}]]]
+}

@@ -1,0 +1,5 @@
+{
+  "name":"DelayTimer",
+  "widget":["P",{"html.":"Error: DelayTimer only used in ScenePage"}],
+  "scene":["rewgt.DelayTimer",{"data-group.optid":"pinp/blogs/steps","klass":"hidden-default rewgt-timer","data-delay":"0","data-auto":""}]
+}

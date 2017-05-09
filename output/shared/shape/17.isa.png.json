@@ -1,0 +1,5 @@
+{
+  "name": "isa",
+  "widget": [["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","html.":"isa","left":8,"top":8,"width":80,"height":52,"stroke":2,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[0,[],"lib/res/isa.svg.json"]}],["MarkedDiv",{"html.":"isa","width":0.9999,"klass":"default-large-small p1-p2-p3-p0 align_center-right-default","padding":[0,0,10,0],"key":"txt"}]],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":80,"height":52}],[["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","html.":"isa","left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":2,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[0,[],"lib/res/isa.svg.json"]}],["MarkedDiv",{"html.":"isa","width":0.9999,"klass":"default-large-small p1-p2-p3-p0 align_center-right-default","padding":[0,0,10,0],"key":"txt"}]]]
+}

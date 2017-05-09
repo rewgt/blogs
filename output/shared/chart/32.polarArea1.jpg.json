@@ -1,0 +1,9 @@
+{
+  "name":"pinp/blogs/steps",
+  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"polarArea1"}],
+    ["RefSpan",{ "$":".pinp.charts.polarArea", "key":"polarArea1",
+      "style":{"width":"100%","height":"100%"},
+      "html.":"labels=One,Two,Three,Four,Five,Six\ntitle.text=\nlegend.display=true\nscale.gridLines.display=true\nscale.ticks.display=true\n---\n\nbackgroundColor=\n65 59 80 81 56 55\n"
+    }]
+  ]
+}

@@ -1,0 +1,52 @@
+3.3 doc_info 文档信息
+--------------
+
+&nbsp;
+
+#### 四种构件
+
+文档信息构件 doc_info 用于描述若干文章属性，包括：
+
+- 文章标题，引用路径：`".pinp.doc_info.title"`
+- 文章简介，引用路径：`".pinp.doc_info.desc"`
+- 文章关键字，引用路径：`".pinp.doc_info.keyword"`
+- 文章缩略图，引用路径：`".pinp.doc_info.thumb"`
+
+这 4 种构件已安装为库化UI，用 `".pinp.doc_info.xxx"` 方式引用。PINP blog 管理工具通过分析 `<div $=".pinp.doc_info.xxx">` 特征字串，来识别一篇文章的标题、简介等是怎么定义的。
+
+#### 转义标签示例
+
+文章标题：
+
+``` html
+<div $='.pinp.doc_info.title' width='{500}' no-show=''>Document Title</div>
+```
+
+文章缩略图：
+
+``` html
+<div $='.pinp.doc_info.thumb' width='{280}' height='{200}' no-show=''
+  style='{{"background":"url(lib/res/background.jpg) no-repeat","backgroundSize":"100% 100%"}}'>
+Document Title</div>
+```
+
+#### 构件 component 接口
+
+这 4 种 doc_info 均为 P 类构件，具有 `T.P` 构件的接口定义，下面列举几项重要属性：
+
+1. `props.noShow`   
+取值为 `"1"` 或空字串，表示隐藏本构件或正常显示。
+
+2. `props['html.']`   
+文章标题、简介、关键字均用它表示。
+
+3. `props.style.background`   
+缩略图用它指定图片 URL。
+
+4. `props.width`   
+构件的宽度。
+
+5. `props.height`   
+构件的高度。
+
+&nbsp;

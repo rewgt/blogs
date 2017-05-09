@@ -1,0 +1,62 @@
+3.1 chartJS 统计图
+--------------
+
+&nbsp;
+
+#### 统计图类别
+
+统计图由 [chart.js](http://www.chartjs.org/) 封装而来，已安装为库化UI，用 `".pinp.charts.xxx"` 的方式引用预定义的 `Canvas` 构件。有关 “库化UI” 的概念请参考《Shadow Widget 用户手册》中 “3.6.1 安装库化 UI” 一节。
+
+- 折线图，引用路径：`".pinp.charts.line"`
+- 柱状图，引用路径：`".pinp.charts.bar"`
+- 雷达图，引用路径：`".pinp.charts.radar"`
+- 极坐标图，引用路径：`".pinp.charts.polarArea"`
+- 饼图，引用路径：`".pinp.charts.pie"`
+- 圈饼图，引用路径：`".pinp.charts.doughnut"`
+- 泡泡图，引用路径：`".pinp.charts.bubble"`
+
+#### 转义标签示例
+
+以饼图为例：
+
+``` html
+<div $=P width='{300}' height='{260}' data-dsn-sizes='pie1'>
+  <pre $='.pinp.charts.pie' key='pie1' style='{{"style":{"width":"100%","height":"100%"}}}'>
+labels=One,Two,Three,Four,Five,Six
+title.text=
+legend.display=true
+legend.position=right
+legend.showPercent=false
+---
+
+backgroundColor=
+64 12 30 82 56 36
+</pre>
+</div>
+```
+
+这里 `data-dsn-size` 指明 `Canvas` 子节点的 key 值，同时约定子节点的宽高以父节点宽高为基准。Canvas 节点的 `props["html."]` 字串用来定义绘图内容，也称 **“绘图脚本”**。
+
+绘图脚本以独立行 `"---"` 分段，首段是统计图的全局配置，包括：标题（title）、图例（legend）等项，第二段（及其后各段）用来定义一组或多组数据，数据格式及数据含义很容易理解（结合绘图效果推导便知）。
+
+#### 构件 component 接口
+
+前面列举的各绘图节点都是 `Canvas` 节点，继承 `T.Canvas` 接口定义。
+
+**类方法：**
+
+> - `renewChart(callback)`   
+重绘本节点，参数 `callback` 为不带参数的回调函数，此参数可以缺省，若不缺省，表示重绘完成后自动调用 callback。
+
+> - `getChart()`   
+返回 chart 对象，也即 chart.js 库提供的、原始的 chart 对象。
+
+> - `clear/stop/resize/reset/toBase64Image/generateLegend/update/getElementAtEvent/getElementsAtEvent/getDatasetAtEvent/getDatasetMeta`   
+这些类方法是 chart.js 提供的原始 chart 对象的原有方法，各方法的参数格式维持原样。
+
+** duals 属性：**
+
+> - `duals['html.']`   
+绘图脚本，用来描述如何绘制统计图。
+
+&nbsp;

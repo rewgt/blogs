@@ -1,0 +1,15 @@
+﻿{
+"mrk1_start": "<marker id='mrk1_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><line stroke-width='20' x1='0' y1='50' x2='50' y2='50'/></g></marker>",
+"mrk2_start": "<marker id='mrk2_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><path stroke-width='10' d='m0,50l100,40l-30,-40l30,-40z'/></g></marker>",
+"mrk3_start": "<marker id='mrk3_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><circle stroke-width='10' cy='50' cx='50' r='30'/></g></marker>",
+"mrk4_start": "<marker id='mrk4_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><path stroke-width='10' d='m20,20l0,60l60,0l0,-60z'/></g></marker>",
+"mrk5_start": "<marker id='mrk5_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><path stroke-width='10' d='m20,80l60,-60m0,60l-60,-60'/></g></marker>",
+"mrk6_start": "<marker id='mrk6_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><line stroke-width='10' x1='50' y1='0' x2='50' y2='100'/></g></marker>",
+
+"mrk1_end": "<marker id='mrk1_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><line stroke-width='20' x1='50' y1='50' x2='100' y2='50'/></g></marker>",
+"mrk2_end": "<marker id='mrk2_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><path stroke-width='10' d='m100,50l-100,40l30,-40l-30,-40z'/></g></marker>",
+"mrk3_end": "<marker id='mrk3_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><circle stroke-width='10' cy='50' cx='50' r='30'/></g></marker>",
+"mrk4_end": "<marker id='mrk4_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><path stroke-width='10' d='m20,20l0,60l60,0l0,-60z'/></g></marker>",
+"mrk5_end": "<marker id='mrk5_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><path stroke-width='10' d='m20,80l60,-60m0,60l-60,-60'/></g></marker>",
+"mrk6_end": "<marker id='mrk6_end' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><line stroke-width='10' x1='50' y1='0' x2='50' y2='100'/></g></marker>"
+}

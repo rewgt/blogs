@@ -1,0 +1,4 @@
+{ "name":"P",
+  "widget":["RefDiv",{"$":".pinp.doc_info.thumb","width":280,"height":200,"klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden default-align_center-right","noShow":"","style":{"background":"url(lib/res/background.jpg) no-repeat center","backgroundSize":"100% 100%"}}],
+  "scene":["RefDiv",{"$":".pinp.doc_info.thumb","data-group.optid":"pinp/blogs/step4","width":280,"height":200,"klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden default-align_center-right","noShow":"","style":{"background":"url(lib/res/background.jpg) no-repeat center","backgroundSize":"100% 100%"}}]
+}

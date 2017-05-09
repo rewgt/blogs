@@ -1,0 +1,5 @@
+{
+  "name": "Ol_static_build",
+  "widget": [["Ol",{"klass":"decimal-alpha-roman default-large-small p1-p2-p3-p0 visible-auto-hidden"}],[["Li",{}],["",{"html":["<span>Build item1</span>"]}]],[["Li",{}],["",{"html":["<span>Build item2</span>"]}]]],
+  "scene": [["Ol",{"data-group.optid":"pinp/blogs/steps","width":400,"klass":"decimal-alpha-roman default-large-small p1-p2-p3-p0 visible-auto-hidden default-translucent build"}],[["Li",{}],["",{"html":["<span>Build item1</span>"]}]],[["Li",{}],["",{"html":["<span>Build item2</span>"]}]]]
+}

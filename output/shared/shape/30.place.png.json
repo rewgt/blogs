@@ -1,0 +1,5 @@
+{
+  "name": "place",
+  "widget": ["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":8,"top":8,"width":100,"height":60,"stroke":2,"style":{"strokeColor":"#666","fillColor":"#666"},"svg.cfg":[0,[],"lib/res/pn_place.svg.json"]}],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":100,"height":60}],["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":2,"style":{"strokeColor":"#666","fillColor":"#666"},"svg.cfg":[0,[],"lib/res/pn_place.svg.json"]}]]
+}

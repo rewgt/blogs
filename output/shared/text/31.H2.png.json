@@ -1,0 +1,5 @@
+{
+  "name": "H2",
+  "widget": ["H2",{"klass":"default-large-small default-align_center-right","html.":"Head 2"}],
+  "scene": ["H2",{"data-group.optid":"pinp/blogs/steps","width":400,"klass":"default-large-small default-align_center-right","html.":"Head 2"}]
+}

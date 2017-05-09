@@ -1,0 +1,85 @@
+2.3 关联界面与底层实现
+-------------
+
+&nbsp;
+
+本库除了 “用链接表定义入口界面” 是新增的，其它按 Shadow Widget 系统的要求做开发即可。
+
+在各胶片页分区块设计界面，并用链接表组装后，界面如何与底层 javascript 实现关联？下文将作出解释，重点介绍 idSetter 关联与 main 投影定义关联两种方法。
+
+#### 使用 idSetter 关联
+
+我们在前面 ["一个简单例子"](#1.3.) 的基础上作讲解，比方为 `"Hello, world!"` 文本增加一个响应鼠标点击的事件。
+
+打开该工程的可视化编辑器，如下图。
+
+![Open creator](md/res/creator_gui.gif)
+
+第 1 步，选中 `"Hello, world!"` 所在的 P 构件，在 property 属性页增加值为 `".body.auto0.body.root.txt"` 的 `$id__` 属性   
+
+`$id__` 值指示系统如何找到该节点的 idSetter 函数定义，其值可自行任意指定，只要不与其它索引项冲突即可。
+
+第 2 步，用 javascript 编程如下：
+
+``` js
+if (!window.W) { window.W = new Array(); W.$modules = [];}
+W.$modules.push( function(require,module,exports) {
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var W = require('shadow-widget');
+var main = W.$main, utils = W.$utils, ex = W.$ex;
+var idSetter = W.$idSetter;
+
+idSetter['.body.auto0.body.root.txt'] = function(value,oldValue) {
+  if (value <= 2) {
+    if (value == 1) {   // init process
+      this.setEvent( {
+        $onClick: function(ev) {
+          alert("clicked!");
+        },
+      });
+    }
+    return;
+  }
+};
+
+});
+```
+
+这一步在 `W.$idSetter` 中注册一个 idSetter 函数，现在，界面元素与底层的 JS 编码实现就关联起来了。运行被测产品，在 `"Hello, world!"` 文本上点击，将有 alert 窗口弹出。
+
+#### 使用 main 投影定义关联
+
+第 1 步，选中 `"Hello, world!"` 所在的 P 构件，指定 key 值为 `"txt"`
+
+![Open creator](md/res/select_p.gif)
+
+现在当前 P 构件的绝对路径为 `".body.auto0.body.root.txt"`。之所有要指定 key 值，因为 Shadow Widget 系统要求某构件的绝对路径上，各段都有命名（并非系统自动生成的一个数值）时，与能与 main 下的投影定义自动关联。
+
+第 2 步，用 javascript 编程如下：
+
+``` js
+if (!window.W) { window.W = new Array(); W.$modules = [];}
+W.$modules.push( function(require,module,exports) {
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var W = require('shadow-widget');
+var main = W.$main, utils = W.$utils, ex = W.$ex;
+var idSetter = W.$idSetter;
+
+main['.body.auto0.body.root.txt'] = {
+  $onClick: function(ev) {
+    alert("clicked!");
+  },
+};
+
+});
+```
+
+用 main 投影定义做关联，与上面用 idSetter 函数关联，效果等同。对比这两种方法，采用 idSetter 关联更简单些。
+
+&nbsp;

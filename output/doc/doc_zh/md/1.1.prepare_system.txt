@@ -1,0 +1,45 @@
+1.1 安装拼文系统
+------
+
+&nbsp;
+ 
+将 PINP 应用于前端编程，依赖于 `shadow-widget, shadow-server, shadow-slide, blogs` 这几个项目。
+
+#### 安装
+
+第一步，先安装 Shadow Widget（shadow-server 项目已包含 shadow-widget 的发行库）：
+
+``` bash
+  mkdir user
+  cd user
+  git clone https://github.com/rewgt/shadow-server.git
+```
+
+说明：上面的 `"user"` 可改成您自己的用户名，本手册常用 `<user>` 表示它。
+
+第二步，安装 Shadow Slide：
+
+``` bash
+  git clone https://github.com/rewgt/shadow-slide.git
+```
+
+第三步，安装 blogs：
+
+``` bash
+  git clone https://github.com/rewgt/blogs.git
+```
+
+#### 在本机启动 web 服务
+
+``` bash
+  cd shadow-server
+  npm start
+```
+
+缺省情况下，本机 Web 服务在 3000 端口启动，在浏览器中这么访问：`http://localhost:3000/blogs/`，将打开本项目博客主页，如下图，点击主菜单，用弹出菜单项创建新文档或管理现有文档。
+
+![blog GUI](md/res/blog_ui.png)
+
+如果想在其它端口启动 web 服务，改变环境变量 PORT 的值即可，比如在 MAC 机器这么启动服务：`PORT=3200 npm start`
+
+&nbsp;

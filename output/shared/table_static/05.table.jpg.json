@@ -1,0 +1,31 @@
+{
+  "name": "table",
+  "widget": [ ["TablePanel",{"width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_05","borderWidth":1,"style":{"borderColor":"#ffa500"}}],
+    [ ["TableRow",{}],
+      [["Div",{"width":150,"klass":"default-large-small align_center-right-left"}],["",{"html":["<p>Title A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small align_center-right-left"}],["",{"html":["<p>Title B</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]]
+    ]
+  ],
+  "scene": [ ["TablePanel",{"data-group.optid":"pinp/blogs/steps","width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_05","borderWidth":1,"style":{"borderColor":"#ffa500"}}],
+    [ ["TableRow",{}],
+      [["Div",{"width":150,"klass":"default-large-small align_center-right-left"}],["",{"html":["<p>Title A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small align_center-right-left"}],["",{"html":["<p>Title B</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]]
+    ]
+  ]
+}

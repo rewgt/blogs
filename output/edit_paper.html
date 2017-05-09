@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Paper editor</title>
+<style>
+head {
+  font-size: 16px;      /* base of rem */
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: white;
+  
+  margin: 0px;
+  padding: 0px;
+  width: 0px;
+  height: 0px;
+}
+
+.noselect-txt {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#tool-bar {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height:70px;
+  min-width: 620px;
+  background-color: #e8e8e8;
+  outline: #ccc solid 1px;
+  overflow: hidden;
+  z-index: 1999;
+}
+#text-area {
+  display: none;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 360px;
+  height: 70px;  /* 70 or 270 */
+  z-index: 2000;
+}
+.popline-frame {
+  width: 100%;
+  height: 70px;  /* 70 or 270 */
+}
+.popline-expand {
+  position: relative;
+  left: 336px;
+  top: -25px;
+  width: 14px;
+  height: 28px;
+  -webkit-transform: rotate(270deg);
+  
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAXBAMAAADJv2OxAAAAMFBMVEX///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZnHHh8xAAAAD3RSTlMAESIzRFVmd4iZqrvM3e5GKvWZAAAAdElEQVQI12NgAAH2v2CKsf83mJb8vxBEMe3/KQCitf83gLn3n4Flff8FgCjW90/A3Pw/BiBK4v0lMHf+bwUw/R/CZVj/SwBq5kaIQD1UAfv7yxCBuH8OYJrl/VWIgM3/AjDNdP45REDq/0SI+9b/gghw/AUAn68l+4HFkZUAAAAASUVORK5CYII=");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.palette-items {
+  width: 315px;
+  height: 32px;
+  float:left;
+}
+.palette-items > div {
+  height: 15px;
+  width: 15px;
+  float: left;
+}
+
+#color-dlg {
+  display: none;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  z-index: 2001;
+}
+#color-chart {
+  padding: 0px;
+  margin: 1px 0px 0px 0px;
+  border-collapse: collapse;
+  width: 500px;
+  height: 300px;
+}
+
+#tool-opacity {
+  height: 26px;
+  font-size: 12px;
+  line-height: 24px;
+}
+#tool-opacity > input {
+  min-width: 40px;
+  background-repeat: no-repeat;
+  background-position: 100% 0px;  /* 0px -18px -36px */
+  background-image: url('output/spinbtn_updn.png');
+  background-color: #fff;
+  cursor: default;
+}
+#tool-frameWd {
+  height: 26px;
+  font-size: 12px;
+  line-height: 24px;
+}
+#tool-frameWd > input {
+  min-width: 30px;
+  background-repeat: no-repeat;
+  background-position: 100% 0px;  /* 0px -18px -36px */
+  background-image: url('output/spinbtn_updn.png');
+  background-color: #fff;
+}
+
+#tool-lineId,#tool-arrowIdE,#tool-arrowIdS {
+  display: none;
+  margin: 6px 1px 0px 0px;
+  padding: 0px;
+  height: 18px;
+  line-height: 18px;
+  background: #e8e8e8;
+}
+#tool-lineId:hover, #tool-arrowIdE:hover, #tool-arrowIdS:hover {
+  -webkit-transform: scale(1.15,1.15);
+}
+
+.quick-btn {
+  width: 20px;
+  height:20px;
+  opacity: 0.7;
+}
+.quick-btn:hover {
+  opacity: 0.4;
+}
+#tool-poptop, #tool-pushbtm, #tool-alignleft, #tool-alignmid, #tool-alignright {
+  display: none;
+}
+
+#arrowstyle_dropdown {
+  display: none;
+  left: 60px;
+  top: 0px;
+  width: 190px;
+  height: 26px;
+  position: absolute;
+  margin: 0px;
+  padding: 6px 0px 0px 6px;
+  
+  border: 1px solid #b0b0b0;
+  background: none repeat scroll 0% 0% #e8e8e8;
+  z-index: 2001;
+}
+#arrowstyle_dropdown > svg {
+  padding: 0px 2px 0px 2px;
+  width: 22px;
+  height: 18px;
+}
+#arrowstyle_dropdown > svg:hover {
+  -webkit-transform: scale(1.15,1.15);
+}
+
+#linestyle_dropdown {
+  display: none;
+  left: 0px;
+  top: 0px;
+  width: 310px;
+  position: absolute;
+  margin: 0px;
+  padding: 0px 0px 0px 4px;
+  
+  border: 1px solid #b0b0b0;
+  background: none repeat scroll 0% 0% #e8e8e8;
+  z-index: 2001;
+}
+#linestyle_dropdown p {
+  margin: 0px;
+  padding: 0px;
+  line-height: 14px;
+}
+#linestyle_dropdown svg:hover {
+  -webkit-transform: scale(1.15,1.15);
+}
+
+div.free-transform {
+  display: none;
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  
+  -o-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  
+  border: 1px dashed black;
+  pointer-events: none;
+  z-index: 1997;
+  -webkit-transform: rotate(0deg);
+}
+div.free-transform > div {
+  position: absolute;
+  background-color: #c0392b;
+  border: 1px solid black;
+  pointer-events: auto;
+}
+div.free-transform .resize {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+  border-width: 2px;
+  border-radius: 6px;
+}
+div.free-transform .resize[data-position]:hover {
+  -webkit-transform: scale(1.4,1.4);
+}
+div.free-transform .resize.nw {
+  cursor: nw-resize;
+}
+
+div.free-transform .resize[data-position="top-left"] {
+  top: -1px;
+  left: -1px;
+  border-radius: 0px 0px 5px;
+  z-index: 2;
+}
+div.free-transform .resize[data-position="top-left"]:hover {
+  -webkit-transform-origin: 0% 0%;
+}
+
+div.free-transform .resize[data-position="top"] {
+  top: -6px;
+  left: 50%;
+  margin-left: -6px;
+}
+div.free-transform .resize.n {
+  cursor: n-resize;
+}
+div.free-transform .resize[data-position="top"] {
+  top: -1px;
+  left: 50%;
+  margin-left: -5px;
+  border-radius: 0px 0px 5px 5px;
+  z-index: 1;
+}
+div.free-transform .resize[data-position="top"]:hover {
+  -webkit-transform-origin: 50% 0%;
+}
+
+div.free-transform .resize[data-position="top-right"] {
+  top: -6px;
+  right: -6px;
+}
+div.free-transform .resize.ne {
+  cursor: ne-resize;
+}
+div.free-transform .resize[data-position="top-right"] {
+  top: -1px;
+  right: -1px;
+  border-radius: 0px 0px 0px 5px;
+  z-index: 2;
+}
+div.free-transform .resize[data-position="top-right"]:hover {
+  -webkit-transform-origin: 100% 0%;
+}
+
+div.free-transform .resize[data-position="right"] {
+  right: -6px;
+  top: 50%;
+  margin-top: -8px;
+}
+div.free-transform .resize.e {
+  cursor: e-resize;
+}
+div.free-transform .resize[data-position="right"] {
+  right: -1px;
+  top: 50%;
+  margin-top: -5px;
+  border-radius: 5px 0px 0px 5px;
+  z-index: 1;
+}
+div.free-transform .resize[data-position="right"]:hover {
+  -webkit-transform-origin: 100% 50%;
+}
+
+div.free-transform .resize[data-position="bottom-right"] {
+  bottom: -6px;
+  right: -6px;
+}
+div.free-transform .resize.se {
+  cursor: se-resize;
+}
+div.free-transform .resize[data-position="bottom-right"] {
+  bottom: -1px;
+  right: -1px;
+  border-radius: 5px 0px 0px;
+  z-index: 3;
+}
+div.free-transform .resize[data-position="bottom-right"]:hover {
+  -webkit-transform-origin: 100% 100%;
+}
+
+div.free-transform .resize[data-position="bottom"] {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -6px;
+}
+div.free-transform .resize.s {
+  cursor: s-resize;
+}
+div.free-transform .resize[data-position="bottom"] {
+  bottom: -1px;
+  left: 50%;
+  margin-left: -5px;
+  border-radius: 5px 5px 0px 0px;
+  z-index: 1;
+}
+div.free-transform .resize[data-position="bottom"]:hover {
+  -webkit-transform-origin: 50% 100%;
+}
+
+div.free-transform .resize[data-position="bottom-left"] {
+  bottom: -6px;
+  left: -6px;
+}
+div.free-transform .resize.sw {
+  cursor: sw-resize;
+}
+div.free-transform .resize[data-position="bottom-left"] {
+  bottom: -1px;
+  left: -1px;
+  border-radius: 0px 5px 0px 0px;
+  z-index: 2;
+}
+div.free-transform .resize[data-position="bottom-left"]:hover {
+  -webkit-transform-origin: 0% 100%;
+}
+
+div.free-transform .resize[data-position="left"] {
+  left: -6px;
+  top: 50%;
+  margin-top: -8px;
+}
+div.free-transform .resize.w {
+  cursor: w-resize;
+}
+div.free-transform .resize[data-position="left"] {
+  left: -1px;
+  top: 50%;
+  margin-top: -5px;
+  border-radius: 0px 5px 5px 0px;
+  z-index: 1;
+}
+div.free-transform .resize[data-position="left"]:hover {
+  -webkit-transform-origin: 0% 50%;
+}
+
+div.halo {
+  display: none;
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1998;
+}
+div.halo > div {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  
+  cursor: pointer;
+  pointer-events: auto;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  -webkit-user-select: none;
+}
+
+div.halo .remove {
+  bottom: -25px;
+  right: -25px;
+  margin-left: -10px;
+  cursor: default;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAO5JREFUeNrUV9sNwyAMtLoAI3SEjJIRMgqjdBRG8CiMQGnlVHwEOBAE19L9OdwRGz+IcNsibISLCBk48dlooB0RXCDNgeXbbntWbovCyVlNtkf4AeQnvJwJ//IwCQdy8zAZeynm/gYBPpcT7gbyNDGb4/4CnyOLb1M+MED+MVPxZfEhQASnFQ4hp4qIlJxAEd+KaQGlpiIC8bmCRZOvRNBL/kvGltp+RdRLfqK5wZhCITMdjaury5lB5OFBCuxvQjAtCZc/w+WFaHkpXt6MVLTj5QOJipFs+VCqYixXsZioWM1GLaf7yK45ZT1/CzAAESidXQn9F/MAAAAASUVORK5CYII=');
+}
+div.halo .clone {
+  bottom: -25px;
+  left: -25px;
+  cursor: move;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo2NjREODhDMjc4MkVFMjExODUyOEU5NTNCRjg5OEI3QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxNTM0NjJBRjJGMkQxMUUyQkRFM0FCRTMxMDhFQkE2QiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxNTM0NjJBRTJGMkQxMUUyQkRFM0FCRTMxMDhFQkE2QiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2NjREODhDMjc4MkVFMjExODUyOEU5NTNCRjg5OEI3QiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2NjREODhDMjc4MkVFMjExODUyOEU5NTNCRjg5OEI3QiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkJFWv4AAAD3SURBVHja5FfRDYMgED2bDsAIjsAIMAluoqs4CY7gCI7ABtTTnsEUNCVQanzJGT/Qx7t7HFBZa6EEHlAIxYh90HPYzCHul+pixM93TV1wfDRNA0qppGRSyh2x8A2q6xqEEIc/mqZpCcTZWJ/iaPR9D13XLe/fNqKiNd6lahxHMMb8jlhrvRlgGAbvYJwQTsytMcH9hjEGnPN0NUZS15khx2L2SMi1GwgqQfdSkKPJ1RRnau/ZMq9J3LbtVtfodezrw6H1nAp2NeWK2bm5Tx9lTyAfilNhXuOkTv/n7hTqwbFwN5DDVGcMHVIsM2fVu7lXt7s7vQQYAIMHB7xhVbHdAAAAAElFTkSuQmCC');
+}
+div.halo .fork {
+  right: -25px;
+  top: 50%;
+  margin-top: -10px;
+  cursor: move;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUUEAUZcNUVHAAAALtJREFUWMPtlt0RgjAMgL9zAkZglI7ACLoJm8RNHIERGMER6ksfsIeRtsGq9LvLW2i+oz8JNBoHYAZcTQEfQoCupoAH7sBZS1jGDAwbCgwh1yfEDejfCSx/3SsksXAcIxsTZYfiSQJrEiUCT1sQ45TFNQkJ33aphzB1f9ckZK9rKBkHM2YqfYgsJIr5aYnJshfkSJj3Ak3C5fQCSwmTh+hTEh4YTwUCF+D6DRNPcTuuPpD8/UhWfShtNFQe+d/oVK9MAB0AAAAASUVORK5CYII=');
+}
+div.halo .link {
+  top: -21px;
+  right: -25px;
+  cursor: default;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjIwRkVFNkM3MkU3RjExRTJBMDA3RkZBQzMyMzExQzIzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjIwRkVFNkM4MkU3RjExRTJBMDA3RkZBQzMyMzExQzIzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjBGRUU2QzUyRTdGMTFFMkEwMDdGRkFDMzIzMTFDMjMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjBGRUU2QzYyRTdGMTFFMkEwMDdGRkFDMzIzMTFDMjMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5hjT/5AAAA8ElEQVR42syXwQ3DIAxFUbtAR+gIHLsSN2+SboA6CSOEMbghJqCAHKlNmwYwkWvpKwdinmRsY4Sos2sSJJkknxRX8rgG+C/ZJG4YG2XQt9kuSVMHcK0J96qGzgOgi+Ya+GhoFfwo6C5890wBIGqto5SScuYf2fvTKcMW895T4G/ZblrARLh5bQ5VTjnMg+ClyUCL0yA4iJ7ONABewu17koQIz8z+2iTCaY3hG7zG7yQYjS3UbMnFVk5sDYStZbJdEizX4hnBDqeD21bNOedECKF8lVLCWttTuvekx9+MPmzDHut4yzrQsz5hDn+0PQUYAOGQcmTsT0IpAAAAAElFTkSuQmCC');
+}
+div.halo .rotate {
+  top: -21px;
+  left: -25px;
+  cursor: move;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOEAAADhAB+dBQOQAAAB90RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgOLVo0ngAAAJeSURBVDiNrdRNaFRnFMbxX2a81TYhSWOaiYXEW0ZsmUiiLgRJF4IlCIpIS9fdDS4igrhQRGor1o0iCCLOxlUXXbm37aa0qJS2GDUKduzgVzIBUYzf4+S6mDvDdWbaRcmzujz3nD/nvOe8b0cURRZTqUWlYUmzMRiOyFRLvfgMX2IkjnuMX/B9OR3+FS1EyrenW4AdzS2PDXVO4CQ+TtivcRdd6Md3M9Hwgbm719tXOBiOgEy1tA3nEpU/xzc4gxeIsBY9qXT702q0nKmW+nEi4c1gSzkdTs2WriVzLg2uHNE3/q6xoc5u9Ffy2VswfXBKql4dtmBVInFPGxjo27yUdS/gW/wdFIrrWyrE54nvP/BD255gdUVw8p+t2B07p4NCcTxn9HUqUy0NZKqlD5FNpPyG3ky1tKwdLzh1azmOJ6wNmKS2h7twD2sSATsxi4+aYbnDo3DE21sAh4JCcTSFo/jd20v+Ds6W02HLXgSF4if4Sm3qdVXRg8lUOR0+wx68TAT8ib3tBnL5ztMbWIEDCfsqMtifgnI6/BWH4p8vMTlj+EkLLVYln32ETQlrrpLPzlXy2QfJKR/DNvx0f2HoQm/Y9288QaH4aRxb1zlqe9i4eok7/Ox5uPbVkol5gsj0viuNrNzhUUGhuAo/Yzi2r2D88p2n8zQ9DrMdw4+6Mj2WTswLCsUcBsZOdV5UO/QPAnbgawzEKQ+Rr+Sz83VGA1gfQO6LDaL3FuB9nEV3HNKlNv26zmOyks/enD441TBbXpum9rqxHRuxHvfjFn/EhUo+u5CE/Sfw/2rRX+w3l+XBBank8HMAAAAASUVORK5CYII=');
+}
+div.halo .klass {
+  top: 50%;
+  left: -25px;
+  margin-top: -10px;
+  cursor: default;
+  background-image: url('data:image/false;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMy8yNS8xN+VU+k0AAAAfdEVYdFNvZnR3YXJlAE1hY3JvbWVkaWEgRmlyZXdvcmtzIDi1aNJ4AAAA40lEQVQ4ja3UIY6EQBCF4Z/NqrbosmCxIPGcAd0WjeQOaC6ChDOALSwWyyjIsDM7oRme63T6S1cqed66rtyZn1s14PfKo6Zp1q7r8H0fay0i4m13nuvIG7bFGENRFDvqNPJfDGBZFuq63s+nwXfYlnme3cBPGECSJOfBM1ie5/tSPoKu2EfwCvYveBV7C36DvYDfYgdQVddhGCjLkiiKLmEHcBxH4jhGRLDWEgSBM3YAp2mibVtUFYAsy5wxeCqHqqpWVcUYQ5qm9H1PGIZOGDzVl6oiIogIxpiXWnL+4V25vbEfZfyGK1Akat4AAAAASUVORK5CYII=');
+}
+
+div.point-nodes {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 70px;
+  pointer-events: none;
+  z-index: 1997;
+}
+div.point-nodes > div.pointer {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: 0px;
+  margin-left: -6px;
+  margin-top: -6px;
+  padding: 0px;
+  
+  background-color: #1abc9c;
+  border: 0px;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-user-select: none;
+  -webkit-border-radius: 6px;
+}
+div.point-nodes.no-move > div.pointer {
+  background-color: grey;
+}
+div.point-nodes:not(.no-move) > div.pointer:hover {
+  -webkit-transform: scale(1.4,1.4);
+}
+</style>
+</head>
+
+<body>
+
+<div id="react-container" class="noselect-txt" style="visibility:hidden; position:absolute; left:0px; top:0px">
+<div $=BodyPanel key='body' klass='S5 hidden-visible-auto' style='{{"zIndex":"-1000"}}'>
+  <div $=rewgt.DrawPaper key='paper' data-design='1' left='{0}' top='{70}' width='{0.9999}' height='{0.9999}' style='{{"position":"absolute","zIndex":"-1000"}}'></div>
+</div>
+</div>
+
+<div id='tool-bar' class='noselect-txt'>
+
+<div style='width:100%; height:1px'></div>
+<div style='width:150px; height:68px; float:right'>
+  <p id='edit-btn' style='text-align:right'><button>OK</button><button>Cancel</button>&nbsp;&nbsp;</p>
+</div>
+<div style='width:324px; height:68px; float:left'>
+  <!-- first row tool bar -->
+  <div class='palette-items' title='click to set fill color, shift-click for frame color, double-click to change palette color'>
+  <div>
+    <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect stroke-width="0" fill="#ffffff" x="0" y="0" width="24" height="24"></rect>
+      <line stroke="#d40000" y2="24" x2="24" y1="0" x1="0"></line>
+      <line stroke="#d40000" y2="24" x2="0" y1="0" x1="24"></line>
+    </svg>
+  </div>
+  <div style='background-color:#000000'></div>
+  <div style='background-color:#3F3F3F'></div>
+  <div style='background-color:#7F7F7F'></div>
+  <div style='background-color:#BFBFBF'></div>
+  <div style='background-color:#FFFFFF'></div>
+  <div style='background-color:#FF0000'></div>
+  <div style='background-color:#FF7F00'></div>
+  <div style='background-color:#FFFF00'></div>
+  <div style='background-color:#7FFF00'></div>
+  <div style='background-color:#00FF00'></div>
+  <div style='background-color:#00FF7F'></div>
+  <div style='background-color:#00FFFF'></div>
+  <div style='background-color:#007FFF'></div>
+  <div style='background-color:#0000FF'></div>
+  <div style='background-color:#7F00FF'></div>
+  <div style='background-color:#FF00FF'></div>
+  <div style='background-color:#FF007F'></div>
+  <div style='background-color:#7F0000'></div>
+  <div style='background-color:#7F3F00'></div>
+  <div style='background-color:#7F7F00'></div>
+  
+  <div style='background-color:#C0C000'></div>
+  <div style='background-color:#3F7F00'></div>
+  <div style='background-color:#007F00'></div>
+  <div style='background-color:#007F7F'></div>
+  <div style='background-color:#003F7F'></div>
+  <div style='background-color:#00007F'></div>
+  <div style='background-color:#3F007F'></div>
+  <div style='background-color:#7F007F'></div>
+  <div style='background-color:#7F003F'></div>
+  <div style='background-color:#FFAAAA'></div>
+  <div style='background-color:#FFD4AA'></div>
+  <div style='background-color:#FFFFAA'></div>
+  <div style='background-color:#D4FFAA'></div>
+  <div style='background-color:#AAFFAA'></div>
+  <div style='background-color:#AAFFFF'></div>
+  <div style='background-color:#AAD4FF'></div>
+  <div style='background-color:#AAAAFF'></div>
+  <div style='background-color:#D4AAFF'></div>
+  <div style='background-color:#FFAAD4'></div>
+  <div style='background-color:#FFFFFF'></div>
+  <div style='background-color:#FFFFFF'></div>
+  </div>
+  
+  <!-- second row tool bar -->
+  <div style='width:324px; height:36px; padding:3px 0px 0px 0px; float:left; overflow:hidden'>
+  
+  <div id='tool-grid' style='float:left; font-size:14px; margin:2px 4px 0 0'>
+    <button title='reset paper offset'>(0,0)</button>
+    <label title='show paper grid'><input type="checkbox" />Grid <span>(0,0)</span></label>
+  </div>
+  
+  <div id="tool-opacity" title='fill opacity' style='float:left; margin:2px 0 0; display:none'>
+    <input type="text" value="100" size="3" autocomplete="off" />
+  </div>
+  <div id="tool-split" style='float:left; width:6px; height:32px; display:none'></div>
+  
+  <div id="tool-frameWd" title='frame width' style='display:none; float:left; margin:2px 0 0'>
+    <input type="text" value="3" size="2" autocomplete="off" />
+  </div>
+  <div id="tool-split2" style='float:left; width:6px; height:32px'></div>
+  
+  <div id="tool-arrowIdS" title='start arrow style' style='float:left'>
+    <svg width="18" height="18" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m100,50l-100,40l30,-40l-30,-40z'/>
+    </svg>
+  </div>
+  <div id="tool-split4S" style='float:left; width:6px; height:32px'></div>
+
+  <div id="tool-lineId" title='line style' style='float:left'>
+    <svg width="60" height="14">
+    <line stroke='#ff7f00' stroke-width='1' x1='0%' y1='60%' x2='100%' y2='60%'/>
+    </svg>
+  </div>
+  <div id="tool-split3" style='float:left; width:6px; height:32px'></div>
+  
+  <div id="tool-arrowIdE" title='end arrow style' style='float:left'>
+    <svg width="18" height="18" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m100,50l-100,40l30,-40l-30,-40z'/>
+    </svg>
+  </div>
+  <div id="tool-split4E" style='float:left; width:6px; height:32px'></div>
+  
+  <div id="tool-alignleft" title='align left' style='float:left; margin:5px 0 0'>
+    <img class="quick-btn" src="output/align_left.png">
+  </div>
+  <div id="tool-alignmid" title='align middle' style='float:left; margin:5px 0 0'>
+    <img class="quick-btn" src="output/align_mid.png">
+  </div>
+  <div id="tool-alignright" title='align right' style='float:left; margin:5px 0 0'>
+    <img class="quick-btn" src="output/align_right.png">
+  </div>
+  <div id="tool-poptop" title='pop to topmost' style='float:left; margin:5px 2px 0 4px'>
+    <img class="quick-btn" src="output/pop_top.png">
+  </div>
+  <div id="tool-pushbtm" title='push to bottom' style='float:left; margin:5px 0 0'>
+    <img class="quick-btn" src="output/push_bottom.png">
+  </div>
+  
+  </div>
+</div>
+
+</div> <!-- end of tool-bar -->
+
+<div id='linestyle_dropdown'>
+<p>
+  <svg _style="0" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg><svg _style="1" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='1,1' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg>
+</p>
+<p>
+  <svg _style="2" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='2,2' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg><svg _style="3" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='5,5' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg>
+</p>
+<p>
+  <svg _style="4" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='5,10' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg><svg _style="5" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='10,5' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg>
+</p>
+<p>
+  <svg _style="6" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='5,1' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg><svg _style="7" width="150" height="14">
+    <line stroke='#ff7f00' stroke-width='1' stroke-dasharray='15,10,5,10,15' x1='10%' y1='60%' x2='90%' y2='60%'/>
+  </svg>
+</p>
+</div>
+
+<div id='arrowstyle_dropdown'>
+  <svg _style="0" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m0,50l100,0'/>
+  </svg>
+  <svg _style="1" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m100,50l-100,40l30,-40l-30,-40z'/>
+  </svg>
+  <svg _style="2" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m20,50c0,-16.57458 13.42542,-30 30,-30c16.57458,0 30,13.42542 30,30c0,16.57458 -13.42542,30 -30,30c-16.57458,0 -30,-13.42542 -30,-30z'/>
+  </svg>
+  <svg _style="3" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' fill='#ff7f00' stroke-width='10' d='m20,20l0,60l60,0l0,-60z'/>
+  </svg>
+  <svg _style="4" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' stroke-width='10' d='m20,80l60,-60m0,60l-60,-60'/>
+  </svg>
+  <svg _style="5" viewBox="0 0 100 100">
+    <path stroke='#ff7f00' stroke-width='10' d='m50,0l0,100'/>
+  </svg>
+</div>
+
+<div id='color-dlg'>
+<table id="color-chart">
+  <tr><td bgcolor="#FBEFEF"></td><td bgcolor="#FBF2EF"></td><td bgcolor="#FBF5EF"></td><td bgcolor="#FBF8EF"></td><td bgcolor="#FBFBEF"></td><td bgcolor="#F8FBEF"></td><td bgcolor="#F5FBEF"></td><td bgcolor="#F2FBEF"></td><td bgcolor="#EFFBEF"></td><td bgcolor="#EFFBF2"></td><td bgcolor="#EFFBF5"></td><td bgcolor="#EFFBF8"></td><td bgcolor="#EFFBFB"></td><td bgcolor="#EFF8FB"></td><td bgcolor="#EFF5FB"></td><td bgcolor="#EFF2FB"></td><td bgcolor="#EFEFFB"></td><td bgcolor="#F2EFFB"></td><td bgcolor="#F5EFFB"></td><td bgcolor="#F8EFFB"></td><td bgcolor="#FBEFFB"></td><td bgcolor="#FBEFF8"></td><td bgcolor="#FBEFF5"></td><td bgcolor="#FBEFF2"></td><td bgcolor="#FFFFFF"></td></tr>
+  <tr><td bgcolor="#F8E0E0"></td><td bgcolor="#F8E6E0"></td><td bgcolor="#F8ECE0"></td><td bgcolor="#F7F2E0"></td><td bgcolor="#F7F8E0"></td><td bgcolor="#F1F8E0"></td><td bgcolor="#ECF8E0"></td><td bgcolor="#E6F8E0"></td><td bgcolor="#E0F8E0"></td><td bgcolor="#E0F8E6"></td><td bgcolor="#E0F8EC"></td><td bgcolor="#E0F8F1"></td><td bgcolor="#E0F8F7"></td><td bgcolor="#E0F2F7"></td><td bgcolor="#E0ECF8"></td><td bgcolor="#E0E6F8"></td><td bgcolor="#E0E0F8"></td><td bgcolor="#E6E0F8"></td><td bgcolor="#ECE0F8"></td><td bgcolor="#F2E0F7"></td><td bgcolor="#F8E0F7"></td><td bgcolor="#F8E0F1"></td><td bgcolor="#F8E0EC"></td><td bgcolor="#F8E0E6"></td><td bgcolor="#FAFAFA"></td></tr>
+  <tr><td bgcolor="#F6CECE"></td><td bgcolor="#F6D8CE"></td><td bgcolor="#F6E3CE"></td><td bgcolor="#F5ECCE"></td><td bgcolor="#F5F6CE"></td><td bgcolor="#ECF6CE"></td><td bgcolor="#E3F6CE"></td><td bgcolor="#D8F6CE"></td><td bgcolor="#CEF6CE"></td><td bgcolor="#CEF6D8"></td><td bgcolor="#CEF6E3"></td><td bgcolor="#CEF6EC"></td><td bgcolor="#CEF6F5"></td><td bgcolor="#CEECF5"></td><td bgcolor="#CEE3F6"></td><td bgcolor="#CED8F6"></td><td bgcolor="#CECEF6"></td><td bgcolor="#D8CEF6"></td><td bgcolor="#E3CEF6"></td><td bgcolor="#ECCEF5"></td><td bgcolor="#F6CEF5"></td><td bgcolor="#F6CEEC"></td><td bgcolor="#F6CEE3"></td><td bgcolor="#F6CED8"></td><td bgcolor="#F2F2F2"></td></tr>
+  <tr><td bgcolor="#F5A9A9"></td><td bgcolor="#F5BCA9"></td><td bgcolor="#F5D0A9"></td><td bgcolor="#F3E2A9"></td><td bgcolor="#F2F5A9"></td><td bgcolor="#E1F5A9"></td><td bgcolor="#D0F5A9"></td><td bgcolor="#BCF5A9"></td><td bgcolor="#A9F5A9"></td><td bgcolor="#A9F5BC"></td><td bgcolor="#A9F5D0"></td><td bgcolor="#A9F5E1"></td><td bgcolor="#A9F5F2"></td><td bgcolor="#A9E2F3"></td><td bgcolor="#A9D0F5"></td><td bgcolor="#A9BCF5"></td><td bgcolor="#A9A9F5"></td><td bgcolor="#BCA9F5"></td><td bgcolor="#D0A9F5"></td><td bgcolor="#E2A9F3"></td><td bgcolor="#F5A9F2"></td><td bgcolor="#F5A9E1"></td><td bgcolor="#F5A9D0"></td><td bgcolor="#F5A9BC"></td><td bgcolor="#E6E6E6"></td></tr>
+  <tr><td bgcolor="#F78181"></td><td bgcolor="#F79F81"></td><td bgcolor="#F7BE81"></td><td bgcolor="#F5DA81"></td><td bgcolor="#F3F781"></td><td bgcolor="#D8F781"></td><td bgcolor="#BEF781"></td><td bgcolor="#9FF781"></td><td bgcolor="#81F781"></td><td bgcolor="#81F79F"></td><td bgcolor="#81F7BE"></td><td bgcolor="#81F7D8"></td><td bgcolor="#81F7F3"></td><td bgcolor="#81DAF5"></td><td bgcolor="#81BEF7"></td><td bgcolor="#819FF7"></td><td bgcolor="#8181F7"></td><td bgcolor="#9F81F7"></td><td bgcolor="#BE81F7"></td><td bgcolor="#DA81F5"></td><td bgcolor="#F781F3"></td><td bgcolor="#F781D8"></td><td bgcolor="#F781BE"></td><td bgcolor="#F7819F"></td><td bgcolor="#D8D8D8"></td></tr>
+  <tr><td bgcolor="#FA5858"></td><td bgcolor="#FA8258"></td><td bgcolor="#FAAC58"></td><td bgcolor="#F7D358"></td><td bgcolor="#F4FA58"></td><td bgcolor="#D0FA58"></td><td bgcolor="#ACFA58"></td><td bgcolor="#82FA58"></td><td bgcolor="#58FA58"></td><td bgcolor="#58FA82"></td><td bgcolor="#58FAAC"></td><td bgcolor="#58FAD0"></td><td bgcolor="#58FAF4"></td><td bgcolor="#58D3F7"></td><td bgcolor="#58ACFA"></td><td bgcolor="#5882FA"></td><td bgcolor="#5858FA"></td><td bgcolor="#8258FA"></td><td bgcolor="#AC58FA"></td><td bgcolor="#D358F7"></td><td bgcolor="#FA58F4"></td><td bgcolor="#FA58D0"></td><td bgcolor="#FA58AC"></td><td bgcolor="#FA5882"></td><td bgcolor="#BDBDBD"></td></tr>
+  <tr><td bgcolor="#FE2E2E"></td><td bgcolor="#FE642E"></td><td bgcolor="#FE9A2E"></td><td bgcolor="#FACC2E"></td><td bgcolor="#F7FE2E"></td><td bgcolor="#C8FE2E"></td><td bgcolor="#9AFE2E"></td><td bgcolor="#64FE2E"></td><td bgcolor="#2EFE2E"></td><td bgcolor="#2EFE64"></td><td bgcolor="#2EFE9A"></td><td bgcolor="#2EFEC8"></td><td bgcolor="#2EFEF7"></td><td bgcolor="#2ECCFA"></td><td bgcolor="#2E9AFE"></td><td bgcolor="#2E64FE"></td><td bgcolor="#2E2EFE"></td><td bgcolor="#642EFE"></td><td bgcolor="#9A2EFE"></td><td bgcolor="#CC2EFA"></td><td bgcolor="#FE2EF7"></td><td bgcolor="#FE2EC8"></td><td bgcolor="#FE2E9A"></td><td bgcolor="#FE2E64"></td><td bgcolor="#A4A4A4"></td></tr>
+  <tr><td bgcolor="#FF0000"></td><td bgcolor="#FF4000"></td><td bgcolor="#FF8000"></td><td bgcolor="#FFBF00"></td><td bgcolor="#FFFF00"></td><td bgcolor="#BFFF00"></td><td bgcolor="#80FF00"></td><td bgcolor="#40FF00"></td><td bgcolor="#00FF00"></td><td bgcolor="#00FF40"></td><td bgcolor="#00FF80"></td><td bgcolor="#00FFBF"></td><td bgcolor="#00FFFF"></td><td bgcolor="#00BFFF"></td><td bgcolor="#0080FF"></td><td bgcolor="#0040FF"></td><td bgcolor="#0000FF"></td><td bgcolor="#4000FF"></td><td bgcolor="#8000FF"></td><td bgcolor="#BF00FF"></td><td bgcolor="#FF00FF"></td><td bgcolor="#FF00BF"></td><td bgcolor="#FF0080"></td><td bgcolor="#FF0040"></td><td bgcolor="#848484"></td></tr>
+  <tr><td bgcolor="#DF0101"></td><td bgcolor="#DF3A01"></td><td bgcolor="#DF7401"></td><td bgcolor="#DBA901"></td><td bgcolor="#D7DF01"></td><td bgcolor="#A5DF00"></td><td bgcolor="#74DF00"></td><td bgcolor="#3ADF00"></td><td bgcolor="#01DF01"></td><td bgcolor="#01DF3A"></td><td bgcolor="#01DF74"></td><td bgcolor="#01DFA5"></td><td bgcolor="#01DFD7"></td><td bgcolor="#01A9DB"></td><td bgcolor="#0174DF"></td><td bgcolor="#013ADF"></td><td bgcolor="#0101DF"></td><td bgcolor="#3A01DF"></td><td bgcolor="#7401DF"></td><td bgcolor="#A901DB"></td><td bgcolor="#DF01D7"></td><td bgcolor="#DF01A5"></td><td bgcolor="#DF0174"></td><td bgcolor="#DF013A"></td><td bgcolor="#6E6E6E"></td></tr>
+  <tr><td bgcolor="#B40404"></td><td bgcolor="#B43104"></td><td bgcolor="#B45F04"></td><td bgcolor="#B18904"></td><td bgcolor="#AEB404"></td><td bgcolor="#86B404"></td><td bgcolor="#5FB404"></td><td bgcolor="#31B404"></td><td bgcolor="#04B404"></td><td bgcolor="#04B431"></td><td bgcolor="#04B45F"></td><td bgcolor="#04B486"></td><td bgcolor="#04B4AE"></td><td bgcolor="#0489B1"></td><td bgcolor="#045FB4"></td><td bgcolor="#0431B4"></td><td bgcolor="#0404B4"></td><td bgcolor="#3104B4"></td><td bgcolor="#5F04B4"></td><td bgcolor="#8904B1"></td><td bgcolor="#B404AE"></td><td bgcolor="#B40486"></td><td bgcolor="#B4045F"></td><td bgcolor="#B40431"></td><td bgcolor="#585858"></td></tr>
+  <tr><td bgcolor="#8A0808"></td><td bgcolor="#8A2908"></td><td bgcolor="#8A4B08"></td><td bgcolor="#886A08"></td><td bgcolor="#868A08"></td><td bgcolor="#688A08"></td><td bgcolor="#4B8A08"></td><td bgcolor="#298A08"></td><td bgcolor="#088A08"></td><td bgcolor="#088A29"></td><td bgcolor="#088A4B"></td><td bgcolor="#088A68"></td><td bgcolor="#088A85"></td><td bgcolor="#086A87"></td><td bgcolor="#084B8A"></td><td bgcolor="#08298A"></td><td bgcolor="#08088A"></td><td bgcolor="#29088A"></td><td bgcolor="#4B088A"></td><td bgcolor="#6A0888"></td><td bgcolor="#8A0886"></td><td bgcolor="#8A0868"></td><td bgcolor="#8A084B"></td><td bgcolor="#8A0829"></td><td bgcolor="#424242"></td></tr>
+  <tr><td bgcolor="#610B0B"></td><td bgcolor="#61210B"></td><td bgcolor="#61380B"></td><td bgcolor="#5F4C0B"></td><td bgcolor="#5E610B"></td><td bgcolor="#4B610B"></td><td bgcolor="#38610B"></td><td bgcolor="#21610B"></td><td bgcolor="#0B610B"></td><td bgcolor="#0B6121"></td><td bgcolor="#0B6138"></td><td bgcolor="#0B614B"></td><td bgcolor="#0B615E"></td><td bgcolor="#0B4C5F"></td><td bgcolor="#0B3861"></td><td bgcolor="#0B2161"></td><td bgcolor="#0B0B61"></td><td bgcolor="#210B61"></td><td bgcolor="#380B61"></td><td bgcolor="#4C0B5F"></td><td bgcolor="#610B5E"></td><td bgcolor="#610B4B"></td><td bgcolor="#610B38"></td><td bgcolor="#610B21"></td><td bgcolor="#2E2E2E"></td></tr>
+  <tr><td bgcolor="#3B0B0B"></td><td bgcolor="#3B170B"></td><td bgcolor="#3B240B"></td><td bgcolor="#3A2F0B"></td><td bgcolor="#393B0B"></td><td bgcolor="#2E3B0B"></td><td bgcolor="#243B0B"></td><td bgcolor="#173B0B"></td><td bgcolor="#0B3B0B"></td><td bgcolor="#0B3B17"></td><td bgcolor="#0B3B24"></td><td bgcolor="#0B3B2E"></td><td bgcolor="#0B3B39"></td><td bgcolor="#0B2F3A"></td><td bgcolor="#0B243B"></td><td bgcolor="#0B173B"></td><td bgcolor="#0B0B3B"></td><td bgcolor="#170B3B"></td><td bgcolor="#240B3B"></td><td bgcolor="#2F0B3A"></td><td bgcolor="#3B0B39"></td><td bgcolor="#3B0B2E"></td><td bgcolor="#3B0B24"></td><td bgcolor="#3B0B17"></td><td bgcolor="#1C1C1C"></td></tr>
+  <tr><td bgcolor="#2A0A0A"></td><td bgcolor="#2A120A"></td><td bgcolor="#2A1B0A"></td><td bgcolor="#29220A"></td><td bgcolor="#292A0A"></td><td bgcolor="#222A0A"></td><td bgcolor="#1B2A0A"></td><td bgcolor="#122A0A"></td><td bgcolor="#0A2A0A"></td><td bgcolor="#0A2A12"></td><td bgcolor="#0A2A1B"></td><td bgcolor="#0A2A22"></td><td bgcolor="#0A2A29"></td><td bgcolor="#0A2229"></td><td bgcolor="#0A1B2A"></td><td bgcolor="#0A122A"></td><td bgcolor="#0A0A2A"></td><td bgcolor="#120A2A"></td><td bgcolor="#1B0A2A"></td><td bgcolor="#220A29"></td><td bgcolor="#2A0A29"></td><td bgcolor="#2A0A22"></td><td bgcolor="#2A0A1B"></td><td bgcolor="#2A0A12"></td><td bgcolor="#151515"></td></tr>
+  <tr><td bgcolor="#190707"></td><td bgcolor="#190B07"></td><td bgcolor="#191007"></td><td bgcolor="#181407"></td><td bgcolor="#181907"></td><td bgcolor="#141907"></td><td bgcolor="#101907"></td><td bgcolor="#0B1907"></td><td bgcolor="#071907"></td><td bgcolor="#07190B"></td><td bgcolor="#071910"></td><td bgcolor="#071914"></td><td bgcolor="#071918"></td><td bgcolor="#071418"></td><td bgcolor="#071019"></td><td bgcolor="#070B19"></td><td bgcolor="#070719"></td><td bgcolor="#0B0719"></td><td bgcolor="#100719"></td><td bgcolor="#140718"></td><td bgcolor="#190718"></td><td bgcolor="#190714"></td><td bgcolor="#190710"></td><td bgcolor="#19070B"></td><td bgcolor="#000000"></td></tr>
+</table>
+</div>
+
+<div id='text-area'>
+<div class='popline-frame'><textarea style='width:99%; height:99%; margin:0px; resize:none'></textarea></div>
+<div class='popline-expand'></div>
+</div>
+
+<div class="point-nodes">
+</div>
+<div class="free-transform">
+  <div class="resize nw" draggable="false" data-position="top-left"></div>
+  <div class="resize n" draggable="false" data-position="top"></div>
+  <div class="resize ne" draggable="false" data-position="top-right"></div>
+  <div class="resize e" draggable="false" data-position="right"></div>
+  <div class="resize se" draggable="false" data-position="bottom-right"></div>
+  <div class="resize s" draggable="false" data-position="bottom"></div>
+  <div class="resize sw" draggable="false" data-position="bottom-left"></div>
+  <div class="resize w" draggable="false" data-position="left"></div>
+</div>
+<div class="halo">
+  <div class="remove" draggable="false" title="remove the object"></div>
+  <div class="clone" draggable="false" title="drag to clone the object"></div>
+  <div class="link" draggable="false" title="drag to connect the object, hold shift and drag for smooth connection"></div>
+  <div class="fork" draggable="false" title="drag to clone and connect the object in one go, hold shift and drag for smooth connection"></div>
+  <div class="klass" draggable="false" title="add text or modify klass"></div>
+  <div class="rotate" draggable="false" title="drag to rotate the object"></div>
+</div>
+
+<link rel="stylesheet" href="lib/hljs/styles/default.css">
+<script src="lib/hljs/highlight.pack.js"></script>
+
+<link rel="stylesheet" shared="true" href="lib/sw_base.css" />
+
+<script src="lib/Chart.min.js"></script>
+<script src="lib/react.min.js"></script>
+<script src="lib/react-dom.min.js"></script>
+
+<script src="lib/shadow-slide.min.js"></script>
+<script src="lib/blogs.min.js"></script>
+<script src='output/js/edit_paper.js'></script>
+<script src="lib/shadow-widget.min.js"></script>
+
+</body>
+</html>

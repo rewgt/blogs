@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Config documents</title>
+<style>
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 96%;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff;
+}
+
+.save-btn.disable {
+  color: #aaa;
+}
+.cfg-title {
+  margin: 24px 0px 6px;
+  line-height: 1.6em;
+}
+.cfg-item {
+  margin: 6px 0px;
+  line-height: 1.6em;
+}
+.import-item {
+  margin: 0px;
+  line-height: 1.6em;
+}
+.import-item > * {
+  margin: 0 6px;
+}
+.import-item > input[readonly] {
+  border: 3px solid transparent;
+}
+
+#doc-list {
+  margin: 6px 0px 0px 8px;
+  line-height: 1.6em;
+}
+#doc-list > p {
+  margin: 10px 0px;
+  padding: 4px;
+  max-width: 560px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+.file-path {
+  font-weight: 600;
+}
+.file-rmv {
+  margin: 0 0 0 20px;
+}
+.file-hide {
+  margin: 0 0 0 2px;
+}
+.file-desc {
+  color: #aaa;
+}
+.file-modi {
+  color: #888;
+}
+.file-prefix, .file-cate {
+  margin: 0 16px 0 4px;
+  width: 80px;
+}
+</style>
+</head>
+
+<body>
+
+<p style='text-align:right'><button class='save-btn disable'>Save</button><button class='cancel-btn'>Cancel</button>&nbsp;&nbsp;&nbsp;</p>
+
+<div style='padding:8px'>
+
+<h3 class='cfg-title'>1. Repository name</h3>
+<p class='cfg-item'>&nbsp;&nbsp;<input id='repo-desc' type='text' style='width:200px' /></p>
+
+<h3 class='cfg-title'>2. Imported repository</h3>
+<p class='import-item' id='add-repoimp' style='margin:12px 0px 6px'><input type='text' style='width:200px' placeholder='repository url' /><input type='text' style='width:120px' placeholder='description' /><button>Add</button></p>
+
+<h3 class='cfg-title'>3. Documents</h3>
+<div id='doc-list'></div>
+
+<p>&nbsp;</p>
+</div>
+
+<script src='js/shadow-gits.min.js'></script>
+<script src='js/pseudo_w.js'></script>
+<script>
+( function() {
+
+var utils = W.$utils;
+
+var saveBtn      = document.querySelector('button.save-btn');
+var cancelBtn    = document.querySelector('button.cancel-btn');
+var repoDescNode = document.querySelector('#repo-desc');
+var addImpNode   = document.querySelector('#add-repoimp');
+var docLstNode   = document.querySelector('#doc-list');
+
+var sourCfg  = null;
+var canPostMsg = window.parent.window && window.parent.window !== window;
+
+function postAsynRequest(sUrl,data,callback) {  // callback must passed, only support JSON post
+  var xmlHttp = null;
+  if (window.XMLHttpRequest)      // Firefox, Opera, IE7, etc
+    xmlHttp = new XMLHttpRequest();
+  else if (window.ActiveXObject)  // IE6, IE5
+    xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+  
+  if (xmlHttp) {
+    var sJson = JSON.stringify(data);
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4) { // 4 is "loaded"
+        if (xmlHttp.status == 200)   // success save
+          callback(null,xmlHttp.responseText);
+        else callback(new Error('XMLHttpRequest failed'));
+        xmlHttp = null;
+      }
+    };
+    xmlHttp.open('POST',sUrl,true);
+    xmlHttp.setRequestHeader('Content-Type','application/json; charset=utf-8');
+    xmlHttp.send(sJson);
+  }
+}
+
+function getUrlParam(s) {
+  var dRet = {}, b = s.split('&');
+  b.forEach( function(item) {
+    if (!item) return;
+    var b2 = item.split('='), sName = b2[0].trim();
+    if (sName)
+      dRet[sName] = (b2[1] || '').trim();
+  });
+  return dRet;
+}
+
+function closeDialog(isCancel,dCfg) {
+  if (!canPostMsg) return;  
+  var sCmd = '[PROJECT_NAME]' + JSON.stringify({method:'configDone',param:[isCancel,dCfg]});
+  window.parent.window.postMessage(sCmd,'*');
+}
+
+cancelBtn.addEventListener('click', function(event) {
+  if (!canPostMsg) return;
+  closeDialog(true,sourCfg);
+},false);
+
+saveBtn.addEventListener('click', function(event) {
+  setTimeout( function() {
+    if (saveBtn.classList.contains('disable')) return;
+    saveBtn.classList.add('disable');
+    saveCfgJson();
+  },0);  // let others onchange() run first
+
+  function saveCfgJson() {
+    var tm = (new Date()).valueOf();
+    sourCfg.last_modify = tm;
+    
+    saveFile('config.json',JSON.stringify(sourCfg,null,2), function(err,fileObj) {
+      if (err) {
+        console.log(err);
+        alert('save config.json failed');
+      }
+      else {
+        if (fileObj.sha) sourSha = fileObj.sha;
+        closeDialog(false,sourCfg); // use sourCfg to refresh document list
+      }
+    },sourSha);
+  }
+},false);
+
+function setModified() {
+  saveBtn.classList.remove('disable');
+}
+
+repoDescNode.addEventListener('change', function(event) {
+  if (!sourCfg) return;
+  var sDesc = event.target.value.trim();
+  sDesc = sDesc.slice(0,16).trim();  // max 16 char
+  if (!sDesc) return;
+  
+  sourCfg.repos_desc = sDesc;
+  setModified();
+},false);
+
+function newImportLine(sUrl,sDesc) {
+  var pNode = document.createElement('p');
+  pNode.classList.add('import-item');
+  
+  var txt1 = document.createElement('input');
+  txt1.setAttribute('type','text');
+  txt1.setAttribute('readonly','readonly');
+  txt1.style.width = '200px';
+  txt1.value = sUrl;
+  pNode.appendChild(txt1);
+  
+  var txt2 = document.createElement('input');
+  txt2.setAttribute('type','text');
+  txt2.setAttribute('readonly','readonly');
+  txt2.style.width = '120px';
+  txt2.value = sDesc;
+  pNode.appendChild(txt2);
+  
+  var btn = document.createElement('button');
+  btn.innerHTML = 'Remove';
+  btn.onclick = function(ev) {
+    var nodes = pNode.querySelectorAll('input'), txt = nodes[0];
+    if (txt) {
+      var bImp = sourCfg.imported_repos || [];
+      var iPos = bImp.findIndex( function(item2) {
+        return item2[0] === txt.value;
+      });
+      if (iPos >= 0) {
+        bImp.splice(iPos,1);
+        setTimeout( function() {
+          pNode.parentNode.removeChild(pNode);
+          setModified();
+        },0);
+      }
+    }
+  };
+  pNode.appendChild(btn);
+  
+  return pNode;
+}
+
+function getFileInList(sPath,findIdx) {
+  var bList, iPos = -1;
+  if (sourCfg) {
+    bList = sourCfg.doc_list || [];
+    iPos = bList.findIndex( function(item) {
+      return item.path === sPath;
+    });
+  }
+  
+  if (findIdx)
+    return iPos;
+  else return iPos >= 0? bList[iPos]: null;
+}
+
+var re_dot_white_ = /[.\s]+/g;
+
+function newDocPropNode(aFile) {
+  var sPath = aFile.path;
+  if (!sPath) return null;  // fatal error
+  
+  var sTitle = aFile.title || 'Untitled';
+  var modiTm, bDesc = (aFile.desc || '').split('<br>');
+  if (aFile.modify_at)
+    modiTm = new Date(aFile.modify_at);
+  else modiTm = new Date();
+  
+  var bSeg = (aFile.tag || '').split('.'), sPrefix = bSeg[0], sCate = '';
+  if (bSeg.length >= 2) sCate = bSeg[1];
+  
+  var pNode = document.createElement('p');
+  
+  var fileNode = document.createElement('span');
+  fileNode.classList.add('file-path');
+  fileNode.setAttribute('data-path',sPath);
+  fileNode.textContent = sPath;
+  pNode.appendChild(fileNode);
+  
+  var rmvNode = document.createElement('button');
+  rmvNode.classList.add('file-rmv');
+  rmvNode.textContent = 'Remove';
+  rmvNode.onclick = function(event) {
+    var node = event.target;
+    if (node.nodeName != 'BUTTON') return;
+    
+    var owner = node.parentNode;
+    var sPath = owner.querySelector('span.file-path').getAttribute('data-path');
+    if (!sPath) return;  // fatal error
+    
+    var iPos = getFileInList(sPath,true);
+    if (iPos >= 0) {
+      if (!window.confirm('do you want remove this document?'))
+        return;
+      
+      sourCfg.doc_list.splice(iPos,1);
+      owner.parentNode.removeChild(owner);
+      setModified();
+    }
+  };
+  pNode.appendChild(rmvNode);
+  
+  var hideNode = document.createElement('button');
+  hideNode.classList.add('file-hide');
+  hideNode.textContent = aFile.hidden? 'Show it': 'Hide it';
+  hideNode.style.color = aFile.hidden? '#c00': '';
+  hideNode.onclick = function(event) {
+    var node = event.target;
+    if (node.nodeName != 'BUTTON') return;
+    
+    var sPath = node.parentNode.querySelector('span.file-path').getAttribute('data-path');
+    if (!sPath) return;  // fatal error
+    
+    var aFile = getFileInList(sPath,false);
+    if (aFile) {
+      var oldHidden = aFile.hidden;
+      aFile.hidden = !oldHidden;
+      node.textContent = oldHidden? 'Hide it': 'Show it';
+      node.style.color = oldHidden? '': '#c00';
+      setModified();
+    }
+  };
+  pNode.appendChild(hideNode);
+  
+  if (braObj.isLocal) {
+    var zipBtn = document.createElement('button');
+    zipBtn.innerHTML = 'Create zip';
+    zipBtn.onclick = function(event) {
+      postAsynRequest('../$zip_doc',{path:sPath}, function(err,sInfo) {
+        if (err) {
+          var sMsg = 'create zip file failed.';
+          console.log('error: ' + sMsg);
+          alert(sMsg);
+        }
+        else {
+          var sName = sPath.split('/').pop(), b = sName.split('.');
+          if (b.length > 1) b.pop();
+          b.push('zip');
+          alert('create zip file (' + b.join('.') + ') successful');
+        }
+      });
+    };
+    pNode.appendChild(zipBtn);
+  }
+  pNode.appendChild(document.createElement('br'));
+  
+  var titNode = document.createElement('span');
+  titNode.textContent = 'Title: ' + sTitle;
+  pNode.appendChild(titNode);
+  pNode.appendChild(document.createElement('br'));
+  
+  bDesc.forEach( function(sDesc) {
+    if (!sDesc) return;
+    var descNode = document.createElement('span');
+    descNode.classList.add('file-desc');
+    descNode.textContent = sDesc;
+    pNode.appendChild(descNode);
+    pNode.appendChild(document.createElement('br'));
+  });
+  
+  var modiNode = document.createElement('span');
+  modiNode.classList.add('file-modi');
+  modiNode.textContent = 'Last modify: ' + docTimeStr(modiTm);
+  pNode.appendChild(modiNode);
+  pNode.appendChild(document.createElement('br'));
+  
+  var preNode = document.createElement('span');
+  preNode.textContent = 'Prefix:';
+  pNode.appendChild(preNode);
+  var preInput = document.createElement('input');
+  preInput.classList.add('file-prefix');
+  preInput.setAttribute('type','text');
+  preInput.value = sPrefix;
+  preInput.onchange = preCateChanged;
+  pNode.appendChild(preInput);
+  var cateNode = document.createElement('span');
+  cateNode.textContent = 'Category:';
+  pNode.appendChild(cateNode);
+  var cateInput = document.createElement('input');
+  cateInput.classList.add('file-cate');
+  cateInput.setAttribute('type','text');
+  cateInput.value = sCate;
+  cateInput.onchange = preCateChanged;
+  pNode.appendChild(cateInput);
+  
+  return pNode;
+  
+  function docTimeStr(tm) {
+    return (tm.getYear() % 100) + '-' + (tm.getMonth() + 1) + '-' + tm.getDate() + ' ' + tm.getHours() + ':' + tm.getMinutes();
+  }
+  
+  function preCateChanged(event) {
+    var node = event.target;
+    if (node.nodeName != 'INPUT') return;
+    
+    var owner = node.parentNode;
+    var sPath = owner.querySelector('span.file-path').getAttribute('data-path');
+    if (!sPath) return;  // fatal error
+    
+    var s1,s2, isCate = node.classList.contains('file-cate');
+    if (isCate) {
+      s1 = owner.querySelector('input.file-prefix').value.trim();
+      s2 = node.value.trim();
+    }
+    else {
+      s1 = node.value.trim();
+      s2 = owner.querySelector('input.file-cate').value.trim();
+    }
+    s1 = s1.replace(re_dot_white_,'');
+    s2 = s2.replace(re_dot_white_,'');
+    if (s2) s1 += '.' + s2;
+    
+    var aFile = getFileInList(sPath,false);
+    if (aFile) {
+      aFile.tag = s1;
+      setModified();
+    }
+  }
+}
+
+addImpNode.querySelector('button').addEventListener('click', function(event) {
+  var nodes = addImpNode.querySelectorAll('input'), txt1 = nodes[0], txt2 = nodes[1];
+  if (txt1 && txt2) {
+    var sUrl = txt1.value.trim(), sDesc = txt2.value.trim();
+    if (sUrl.search(/^(http:|https:)/) != 0) {
+      alert('Invalid URL' + (sUrl?': ' + sUrl:''));
+      return;
+    }
+    if (!sDesc) {
+      alert('Description can not be empty');
+      return;
+    }
+    
+    var b = sourCfg.imported_repos;
+    if (!b) b = sourCfg.imported_repos = [];
+    var iPos = b.findIndex( function(item2) {
+      return item2[0] === sUrl;
+    });
+    if (iPos >= 0) {
+      alert('Same URL already exist');
+      return;
+    }
+    
+    b.push([sUrl,sDesc]);
+    var pNode = newImportLine(sUrl,sDesc);
+    addImpNode.parentNode.insertBefore(pNode,addImpNode);
+    setModified();
+  }
+},false);
+
+var Git = null, userObj = null, braObj = null;
+
+var sourSha  = '';
+var sourFile = '';
+
+function loadConfig() {
+  if (!braObj) return;
+  
+  var fileObj = braObj.fileOf('config.json');
+  fileObj.readRaw( function(err,sRaw) {
+    if (err) {
+      console.log(err);
+      alert('load config.json failed');
+      return;
+    }
+    sourSha = fileObj.sha || '';
+    
+    var cfg = null;
+    try {
+      cfg = JSON.parse(sRaw);
+    }
+    catch(e) {
+      alert('parse JSON failed: config.json');
+    }
+    if (cfg) initGui(cfg);
+  });
+  
+  function initGui(cfg) {
+    sourCfg = cfg;
+    
+    repoDescNode.value = sourCfg.repos_desc;
+    
+    var bImp = sourCfg.imported_repos || [], owner = addImpNode.parentNode;
+    bImp.forEach( function(item) {
+      var pNode = newImportLine(item[0],item[1]);
+      owner.insertBefore(pNode,addImpNode);
+    });
+    
+    var bDoc = sourCfg.doc_list || [];
+    bDoc.forEach( function(item) {
+      var pNode = newDocPropNode(item);
+      if (pNode) docLstNode.appendChild(pNode);
+    });
+  }
+}
+
+function saveFile(sPath,sRaw,callback,sSha) {
+  if (!braObj) return callback(new Error('system error'));
+  
+  var fObj = braObj.fileOf(sPath);
+  if (sSha) fObj.sha = sSha;
+  
+  fObj.putContent(sRaw, function(err,bOut) {
+    if (err) return callback(err);
+    callback(null,bOut[0]);  // bOut[0] is fileObj
+  });
+}
+
+window.addEventListener('load', function(event) {
+  var param = getUrlParam(window.location.search.slice(1));
+  
+  if (utils && utils.gitOf) {
+    var b = window.location.pathname.split('/');
+    if (b[0] === '') b.shift();
+    var repoName = b[0];
+    
+    var siteHost  = window.location.hostname, sitePort = window.location.port;
+    if (param.site) siteHost = decodeURIComponent(param.site); // param.site = 'api.github.com'
+    var sHostPort = sitePort? siteHost + ':' + sitePort: siteHost;
+    Git = (siteHost == 'localhost' || siteHost == '127.0.0.1')
+        ? utils.gitOf(sHostPort,'http')   // fixed to http
+        : utils.gitOf(sHostPort,'https'); // fixed to https, location.port should be ''
+    
+    userObj = new Git.User(param.user?decodeURIComponent(param.user):'pinp');
+    if (!userObj.isLocal && param.token)
+      Git.siteAuth = 'OAuth ' + decodeURIComponent(param.token);
+    braObj = new Git.Branch(userObj,repoName,'gh-pages');
+    
+    loadConfig();
+  }
+},false);
+
+})();
+</script>
+
+</body>
+</html>

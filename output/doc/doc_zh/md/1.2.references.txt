@@ -1,0 +1,42 @@
+1.2 学习材料
+------
+
+&nbsp;
+
+#### 预备知识
+
+学习本手册之前，您应先完成如下学习：
+
+1. 会用 PINP 写文档，包括博客与演示胶片   
+请参考 [拼文的 Online help](https://rewgt.github.io/blogs/)
+
+2. 掌握 react 编程的基础知识   
+请参考 [React Getting Started](https://facebook.github.io/react/docs/getting-started.html)
+
+#### PINP 技术栈
+
+![PINP Stack](md/res/blog_stack.png)
+
+PINP 编程建立在 React 提供虚拟 DOM，以及 Shadow Widget 提供的可视化编程基础之上，Shadow Slide 是 Shadow Widget 系统的一个扩展插件，主要用来支持胶片页内容设计。
+
+PINP Blogs 则提供：
+
+1. 拼文管理，包括创建、编辑、管理博客文档与演示胶片
+2. 集成 chart.js 图表绘制功能
+3. 提供 svg 自由绘图，包括：流程图、实体关系图、Petri Net 图、思维导图等
+4. 支持文章的标题、简介、关键词、缩略图定义
+5. 提供 audio 组件封装
+
+#### 学习 PINP 编程的步骤
+
+建议按如下步骤学习：
+
+1. 学习 Shadow Widget 系统   
+完成上一节介绍的软件安装后，学习《Shadow Widget 用户手册》，这么操作：在网页打开 `http://localhost:3000/`，然后点击主菜单 `"Online document"`。
+
+2. 学习 Shadow Slide 库   
+学习《Shadow Slide 用户手册》，这么操作：在网页打开 `http://localhost:3000/shadow-slide/`，然后点击 `"Read user manual"` 链接。
+
+3. 学习本手册，即《PINP Blog 开发者手册》，按章节顺序依次阅读，并结合手册中的例子做演练。
+
+&nbsp;

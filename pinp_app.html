@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta property="pinp:template" page="Md" content="/app/pinp/blogs/web/output/hint_marked.html">
+<meta property="pinp:template" page="text" content="/app/pinp/blogs/web/output/shared/text">
+<meta property="pinp:template" page="chart" content="/app/pinp/blogs/web/output/shared/chart">
+<meta property="pinp:template" page="shape" content="/app/pinp/blogs/web/output/shared/shape">
+<meta property="pinp:template" page="tbl_static" content="/app/pinp/blogs/web/output/shared/table_static">
+<meta property="pinp:template" page="tbl_mark" content="/app/pinp/blogs/web/output/shared/table_marked">
+<meta property="pinp:template" page="bkg" content="/app/pinp/blogs/web/output/shared/bkg">
+<meta property="pinp:template" page="other" content="/app/pinp/blogs/web/output/shared/other">
+<meta property="pinp:template" page="Panel" content="/app/pinp/blogs/web/output/shared/dev/0.Panel">
+<meta property="pinp:template" page="P" content="/app/pinp/blogs/web/output/shared/dev/1.P">
+<meta property="pinp:template" page="Span" content="/app/pinp/blogs/web/output/shared/dev/2.Span">
+<meta property="pinp:template" page="Linker" content="/app/pinp/blogs/web/output/shared/dev/3.Linker">
+<meta property="pinp:template" page="Nav" content="/app/pinp/blogs/web/output/shared/dev/4.Nav">
+<title>PINP App</title>
+<style>
+html {
+  font-size: 16px;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #222;
+}
+</style>
+</head>
+<body>
+
+<!-- BEGIN OF CONTAINER, DO NOT CHANGE THIS LINE. -->
+<div id="react-container" style="visibility:hidden; position:absolute; left:0px; top:0px">
+<div $=BodyPanel key='body' style='{{"backgroundColor":"rgb(216, 216, 216)"}}' klass='S5 hidden-visible-auto'>
+  <div $=ScenePage key='auto0' klass='S4' no-show='1'>
+    <div $=Panel key='body' style='{{"borderColor":"#ccc"}}' width='{400}' height='{260}' klass='hidden-visible-auto S5' left='{-380}' top='{-130}' border-width='{3}'>
+      <div $=Panel key='root' style='{{"backgroundColor":"#fff"}}' klass='default-large-small hidden-visible-auto row-reverse default-wrap_reverse-nowrap default-justify_center-end default-content_center-end-stretch default-items_center-end-stretch'>
+        <div $=P>Hello, world!</div>
+      </div>
+    </div>
+    <div $=Pre key='link_table' style='{{"borderColor":"#ccc"}}' klass='S6 hidden-visible-auto' left='{30}' top='{-130}' width='{350}' height='{260}' title='Link table' border-width='{3}' margin='{0}' padding='{0}'>{
+"root": [".body.auto0.body.root"]
+}</div>
+  </div>
+  <div $=ScenePage key='auto1' klass='S4' no-show='1'></div>
+</div>
+</div>
+<!-- END OF CONTAINER, DO NOT CHANGE THIS LINE. -->
+
+<!-- highlight.js -->
+<link rel="stylesheet" href="lib/hljs/styles/default.css">
+<script src="lib/hljs/highlight.pack.js"></script>
+
+<!-- chart.js -->
+<script src="lib/Chart.min.js"></script>
+
+<!-- main modules: pinp blog -->
+<script src="lib/shadow-slide.min.js"></script>
+<script src="lib/blogs.min.js"></script>
+
+<!-- shadow-widget -->
+<link rel="stylesheet" shared="true" href="lib/sw_base.css" />
+<link rel="stylesheet" shared="true" href="lib/slide_style.css" />
+<link rel="stylesheet" shared="true" href="lib/sample_style.css" />
+<script src="lib/react.min.js"></script>
+<script src="lib/react-dom.min.js"></script>
+<script src="lib/shadow-widget.min.js"></script>
+
+</body>
+</html>

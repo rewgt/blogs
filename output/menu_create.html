@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Create document</title>
+<style>
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 96%;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff;
+}
+.cfg-title {
+  margin: 24px 0px 6px;
+  line-height: 1.6em;
+}
+.cfg-item {
+  margin: 6px 0px;
+  line-height: 1.6em;
+}
+</style>
+</head>
+
+<body>
+
+<p style='text-align:right'><button class='cancel-btn'>Cancel</button>&nbsp;&nbsp;&nbsp;</p>
+
+<div style='padding:8px'>
+
+<h3 class='cfg-title'>Document type</h3>
+<p class='cfg-item'>&nbsp;<label><input id='blog-type' type='radio' name='doc_type' checked />Blog</label>&nbsp;
+  <label><input type='radio' name='doc_type' />Slide</label>
+</p>
+
+<h3 class='cfg-title'>Prefix string <span style='color:#888; font-weight:400; font-size:15px'>(list documents in descendant order by prefix word)</span></h3>
+<p class='cfg-item'>&nbsp;&nbsp;<input id='input-prefix' type='text' style='width:200px' placeholder='Prefix word or leave it blank' /></p>
+
+<h3 class='cfg-title'>Category <span style='color:#888; font-weight:400; font-size:15px'>(document category word)</span></h3>
+<p class='cfg-item'>&nbsp;&nbsp;<input id='input-cate' type='text' style='width:200px' placeholder='Category word' /></p>
+
+<p class='cfg-title'><button id='create-btn'>Create document</button><br>&nbsp;<span id='create-ret' style='color:red'></span><p>
+
+</div>
+
+<script src='js/shadow-gits.min.js'></script>
+<script src='js/pseudo_w.js'></script>
+<script>
+( function() {
+
+var utils = W.$utils;
+
+var cancelBtn = document.querySelector('button.cancel-btn');
+var createBtn = document.querySelector('#create-btn');
+
+var beBlogInput = document.querySelector('#blog-type');
+var prefixInput = document.querySelector('#input-prefix');
+var cateInput   = document.querySelector('#input-cate');
+var retInfoSpan = document.querySelector('#create-ret');
+
+var sourCfg  = null;
+var canPostMsg = window.parent.window && window.parent.window !== window;
+
+function getUrlParam(s) {
+  var dRet = {}, b = s.split('&');
+  b.forEach( function(item) {
+    if (!item) return;
+    var b2 = item.split('='), sName = b2[0].trim();
+    if (sName)
+      dRet[sName] = (b2[1] || '').trim();
+  });
+  return dRet;
+}
+
+function closeDialog(isCancel,dCfg) {
+  if (!canPostMsg) return;  
+  var sCmd = '[PROJECT_NAME]' + JSON.stringify({method:'configDone',param:[isCancel,dCfg]});
+  window.parent.window.postMessage(sCmd,'*');
+}
+
+cancelBtn.addEventListener('click', function(event) {
+  closeDialog(true,sourCfg);
+},false);
+
+var Git = null, userObj = null, braObj = null;
+
+var sourSha  = '';
+var sourFile = '';
+
+var slideSplitor  = '<!-- SLIDE PAGES V1.0, DO NOT CHANGE THIS LINE. -->';
+var blog_sample_  = 'Blog title\n----------\n\nby xxx at yy/mm/dd\n\n&nbsp;\n\nAbstract of the blog...\n\n&nbsp;\n\nContent of the blog...\n' + 
+  slideSplitor + '\n' + 
+  '<div $=ScenePage key="auto0"></div>\n' +
+  '<div $=ScenePage key="auto1" no-show="1"></div>\n';
+var slide_sample_ = slideSplitor + '\n' + 
+  '<div $=ScenePage key="auto0">\n' +
+  '  <div $=".pinp.doc_info.title" no-show="" left="{-250}" top="{-100}" style=\'{{"fontWeight":"600"}}\' klass="default-large-small p1-p2-p3-p0 visible-auto-hidden align_center-right-default S3" data-group.optid="pinp/blogs/steps" width="{500}">Title Goes Here Up</div>\n' +
+  '  <div $=".pinp.doc_info.desc" no-show="{1}" left="{-200}" top="{100}" klass="default-large-small p1-p2-p3-p0 visible-auto-hidden align_center-right-default" data-group.optid="pinp/blogs/steps" width="{400}">Abstract of the slide ...</div>\n' +
+  '  <div $=Div data-group.optid="pinp/blogs/steps" width="{400}" klass="default-large-small align_center-right-default p1-p2-p3-p0 visible-auto-hidden" left="{-200}" top="{-60}">\n' +
+  '    <div class="rewgt-static"><p>By XXX at yy/mm/dd</p></div>\n' +
+  '  </div>\n' +
+  '  <div $=".pinp.doc_info.thumb" no-show="{1}" left="{-70}" top="{-8}" style=\'{{"background":"url(lib/res/slideshow.jpg) no-repeat center","backgroundSize":"100% 100%"}}\' klass="default-large-small p1-p2-p3-p0 visible-auto-hidden default-align_center-right" data-group.optid="pinp/blogs/step4" width="{140}" height="{100}"></div>\n' +
+  '</div>\n' +
+  '<div $=ScenePage key="auto1"></div>\n';
+
+function showResult(s) {
+  retInfoSpan.textContent = s;
+}
+
+function loadConfig() {
+  if (!braObj) return;
+  
+  var fileObj = braObj.fileOf('config.json');
+  fileObj.readRaw( function(err,sRaw) {
+    if (err) {
+      console.log(err);
+      showResult('load config.json failed');
+      return;
+    }
+    sourSha = fileObj.sha || '';
+    
+    var cfg = null;
+    try {
+      cfg = JSON.parse(sRaw);
+    }
+    catch(e) {
+      showResult('parse JSON failed: config.json');
+    }
+    if (cfg) {
+      var dirObj = braObj.dirOf('md');
+      dirObj.fetchContents( function(err,obj) {
+        if (err)
+          showResult('read directory failed: ' + braObj.repoName + '/md');
+        else initGui(dirObj,cfg);
+      });
+    }
+  });
+  
+  function initGui(dirObj,cfg) {
+    sourCfg = cfg;
+    
+    var tm = new Date(), yr = (tm.getYear()%100)+'', mn = (tm.getMonth()+1)+'', dt = tm.getDate()+'';
+    if (yr.length < 2) yr = '0' + yr;
+    if (mn.length < 2) mn = '0' + mn;
+    if (dt.length < 2) dt = '0' + dt;
+    
+    var sName = 'D' + yr + mn + dt, idx = 1;
+    while (true) {
+      var s = idx + '';
+      if (s.length == 1) s = '0' + s;
+      s = sName + '-' + s;
+      
+      if (!dirObj.getFile(s+'.txt')) {
+        sName = s;
+        break;
+      }
+      else idx += 1;
+    }
+    sourFile = sName + '.txt';
+    
+    createBtn.textContent = 'Create document: ' + sourFile;
+  }
+}
+
+function saveFile(sPath,sRaw,callback,sSha) {
+  if (!braObj) return callback(new Error('system error'));
+  
+  var fObj = braObj.fileOf(sPath);
+  if (sSha) fObj.sha = sSha;
+  
+  fObj.putContent(sRaw, function(err,bOut) {
+    if (err) return callback(err);
+    callback(null,bOut[0]);  // bOut[0] is fileObj
+  });
+}
+
+var re_dot_white_ = /[.\s]+/g;
+
+createBtn.addEventListener('click', function(event) {
+  if (!braObj || !sourCfg || !sourFile) return;
+  
+  var isBlog = beBlogInput.checked;
+  var sPrefix = prefixInput.value.trim().replace(re_dot_white_,'');
+  var sCate = cateInput.value.trim().replace(re_dot_white_,'');
+  if (sCate == 'null') sCate = '';
+  if (sCate) sPrefix += '.' + sCate;
+  
+  saveTxtFile();
+  
+  function saveTxtFile() {
+    var sTxt = isBlog? blog_sample_: slide_sample_;
+    saveFile('md/' + sourFile,sTxt, function(err,fileObj) {
+      if (err) {
+        console.log(err);
+        showResult('save file failed: md/' + sourFile);
+      }
+      else saveCfgJson();
+    });
+  }
+  
+  function saveCfgJson() {
+    var tm = (new Date()).valueOf();
+    var dItem = {
+      path:'md/'+sourFile, tag:sPrefix, markdown:!!isBlog, title:sourFile,
+      modify_at:tm, create_at:tm,  // not defined: keyword,thumb,desc
+    };
+    sourCfg.doc_list.unshift(dItem);
+    sourCfg.last_modify = tm;
+    
+    saveFile('config.json',JSON.stringify(sourCfg,null,2), function(err,fileObj) {
+      if (err) {
+        console.log(err);
+        showResult('save config.json failed');
+      }
+      else {
+        var sMsg = 'success create file: md/' + sourFile;
+        console.log(sMsg); showResult(sMsg);
+        
+        if (fileObj.sha) sourSha = fileObj.sha;
+        closeDialog(false,sourCfg); // use sourCfg to refresh document list
+      }
+    },sourSha);
+  }
+},false);
+
+window.addEventListener('load', function(event) {
+  var param = getUrlParam(window.location.search.slice(1));
+  
+  if (utils && utils.gitOf) {
+    var b = window.location.pathname.split('/');
+    if (b[0] === '') b.shift();
+    var repoName = b[0];
+    
+    var siteHost  = window.location.hostname, sitePort = window.location.port;
+    if (param.site) siteHost = decodeURIComponent(param.site); // param.site = 'api.github.com'
+    var sHostPort = sitePort? siteHost + ':' + sitePort: siteHost;
+    Git = (siteHost == 'localhost' || siteHost == '127.0.0.1')
+        ? utils.gitOf(sHostPort,'http')   // fixed to http
+        : utils.gitOf(sHostPort,'https'); // fixed to https, location.port should be ''
+    
+    userObj = new Git.User(param.user?decodeURIComponent(param.user):'pinp');
+    if (!userObj.isLocal && param.token)
+      Git.siteAuth = 'OAuth ' + decodeURIComponent(param.token);
+    braObj = new Git.Branch(userObj,repoName,'gh-pages');
+    
+    loadConfig();
+  }
+},false);
+
+})();
+</script>
+
+</body>
+</html>

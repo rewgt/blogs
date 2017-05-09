@@ -1,0 +1,4 @@
+{ "name":"P",
+  "widget":["RefDiv",{"$":".pinp.doc_info.keyword","klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden default-align_center-right","noShow":"1","html.":"keyword1,keyword2"}],
+  "scene":["RefDiv",{"$":".pinp.doc_info.keyword","data-group.optid":"pinp/blogs/steps","width":400,"klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden default-align_center-right","noShow":"1","html.":"keyword1,keyword2"}]
+}

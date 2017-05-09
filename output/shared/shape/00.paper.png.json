@@ -1,0 +1,4 @@
+{
+  "name": "DrawPaper",
+  "widget": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/step0","klass":"default-large-small S5","width":400,"height":280,"style":{"zIndex":"-998"}}],["rewgt.SvgPanel",{"klass":"items_center-end-stretch-default","html.":"DrawPaper","left":8,"top":8,"width":100,"height":40,"style":{"strokeColor":"rgba(0,0,0,0)","fillColor":"rgba(0,0,0,0)"},"svg.cfg":[0,[],"lib/res/rect2.svg.json"]}]]
+}

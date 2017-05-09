@@ -1,0 +1,37 @@
+{
+  "name": "table",
+  "widget": [ ["TablePanel",{"width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_54"}],
+    [ ["TableRow",{}],
+      [["Div",{"width":50,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>#</p>"]}]],
+      [["Div",{"width":100,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Title B</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Title C</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]]
+    ]
+  ],
+  "scene": [ ["TablePanel",{"data-group.optid":"pinp/blogs/steps","width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_54"}],
+    [ ["TableRow",{}],
+      [["Div",{"width":50,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>#</p>"]}]],
+      [["Div",{"width":100,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Title B</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Title C</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row1</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Row2</p>"]}]]
+    ]
+  ]
+}

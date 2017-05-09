@@ -1,0 +1,9 @@
+{
+  "name":"pinp/blogs/steps",
+  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"bubble1"}],
+    ["RefSpan",{ "$":".pinp.charts.bubble", "key":"bubble1",
+      "style":{"width":"100%","height":"100%"},
+      "html.":"title.text=\nlegend.display=true\n---\n\nlabel=Item A\n20,30,12 40,10,10\n---\nlabel=Item B\n25,16,5 30,20,8 33,28,10\n"
+    }]
+  ]
+}

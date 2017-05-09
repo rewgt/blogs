@@ -1,0 +1,23 @@
+{
+  "name": "TablePanel",
+  "widget": [ ["TablePanel",{"width":400,"klass":"S5 default-large-small default-row_hover-col hidden-visible-auto default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_00","borderWidth":1,"style":{"borderColor":"#ccc"}}],
+    [ ["TableRow",{}],
+      [["Div",{"width":180,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 1A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 1B</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 2A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 2B</p>"]}]]
+    ]
+  ],
+  "scene": [ ["TablePanel",{"data-group.optid":"pinp/blogs/steps","width":400,"klass":"S5 default-large-small default-row_hover-col hidden-visible-auto default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt tbl_00","borderWidth":1,"style":{"borderColor":"#ccc"}}],
+    [ ["TableRow",{}],
+      [["Div",{"width":180,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 1A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 1B</p>"]}]]
+    ],
+    [ ["TableRow",{}],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 2A</p>"]}]],
+      [["Div",{"width":null,"klass":"default-large-small default-align_center-right"}],["",{"html":["<p>Static text 2B</p>"]}]]
+    ]
+  ]
+}

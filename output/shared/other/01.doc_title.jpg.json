@@ -1,0 +1,4 @@
+{ "name":"P",
+  "widget":["RefDiv",{"$":".pinp.doc_info.title","klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden align_center-right-default S3","style":{"fontWeight":"600"},"noShow":"","html.":"Document Title"}],
+  "scene":["RefDiv",{"$":".pinp.doc_info.title","data-group.optid":"pinp/blogs/steps","width":500,"klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden align_center-right-default S3","style":{"fontWeight":"600"},"noShow":"","html.":"Document Title"}]
+}

@@ -1,0 +1,81 @@
+{
+  "lib": {
+    "baseUrl": "/app/pinp/blogs/web/output",
+    "tools": [ {
+      "name": "step",
+      "icon": "step.png",
+      "title": "config pre-post step",
+      "url": "edit_prepost.html",
+      "halfScreen": true,
+      "noMove": false,
+      "clickable": true,
+      "onlyScene": true,
+      "left": 0.05,
+      "top": 0.05,
+      "width": 0.9,
+      "height": 0.9
+    }, {
+      "name": "maxi",
+      "icon": "maxi.png",
+      "title": "resize to maximun",
+      "url": "edit_maxi.html",
+      "halfScreen": true,
+      "noMove": false,
+      "clickable": true,
+      "onlyScene": true,
+      "width": 0.6,
+      "height": 0.6
+    }, {
+      "name": "mini",
+      "icon": "mini.png",
+      "title": "resize to minimun",
+      "url": "edit_mini.html",
+      "halfScreen": true,
+      "noMove": false,
+      "clickable": true,
+      "onlyScene": true,
+      "width": 0.6,
+      "height": 0.6
+    }, {
+      "name": "image",
+      "icon": "bkg_image.png",
+      "title": "set background image",
+      "url": "edit_image.html",
+      "halfScreen": true,
+      "noMove": false,
+      "clickable": true,
+      "onlyScene": false,
+      "width": 0.8,
+      "height": 0.96 }
+    ]
+  },
+  
+  "pinp/blogs/steps": {
+    "opt": "mono/all",
+    "tools": [ "lib/step", "*" ]
+  },
+  "pinp/blogs/step0": {
+    "opt": "mono/none",
+    "tools": [ "lib/step", "*" ]
+  },
+  "pinp/blogs/step1": {
+    "opt": "mono/some",
+    "tools": [ "lib/step", "*" ]
+  },
+  "pinp/blogs/step2": {
+    "opt": "mono/all",
+    "tools": [ "lib/step", "lib/maxi", "lib/mini", "*" ]
+  },
+  "pinp/blogs/step3": {
+    "opt": "mono/some",
+    "tools": [ "lib/step", "lib/maxi", "lib/mini", "*" ]
+  },
+  "pinp/blogs/step4": {
+    "opt": "mono/all",
+    "tools": [ "lib/step", "lib/image", "*" ]
+  },
+  "pinp/blogs/step5": {
+    "opt": "mono/some",
+    "tools": [ "lib/step", "lib/image", "*" ]
+  }
+}

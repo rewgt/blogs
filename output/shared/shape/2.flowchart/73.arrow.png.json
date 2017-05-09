@@ -1,0 +1,5 @@
+{
+  "name": "arrow",
+  "widget": ["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":8,"top":8,"width":80,"height":140,"stroke":3,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[10,[],"lib/res/arrow27_top.svg.json","lib/res/arrow25_mid.svg.json","lib/res/arrow25_btm.svg.json"]}],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":80,"height":140}],["rewgt.SvgPanel",{"klass":"default-flip_x-y nowrap-default-wrap_reverse items_center-end-stretch-default","left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":3,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[10,[],"lib/res/arrow27_top.svg.json","lib/res/arrow25_mid.svg.json","lib/res/arrow25_btm.svg.json"]}]]
+}

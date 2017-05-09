@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Config pre-post step</title>
+<style>
+body {
+  font-size: 15px;
+  line-height: 1.5;
+  background-color: white;
+  
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+table.prepost {
+  margin: 0px;
+  padding: 2px;
+  border: 0px solid gray;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+table.prepost td {
+  border: 1px solid gray;
+  padding: 4px;
+}
+div.slide-page {
+  border: 1px solid gray;
+  margin-left: 10px;
+  width: 300px;
+  height: 300px;
+  
+  overflow: hidden;
+}
+
+div.prebuild-1 {
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -ms-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+}
+div.prebuild-2 {
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -ms-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
+}
+div.prebuild-3 {
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+div.prebuild-4 {
+  -webkit-transition: all 1.6s ease-out;
+  -moz-transition: all 1.6s ease-out;
+  -ms-transition: all 1.6s ease-out;
+  -o-transition: all 1.6s ease-out;
+  transition: all 1.6s ease-out;
+}
+div.prebuild-5 {
+  -webkit-transition: all 2.8s ease-out;
+  -moz-transition: all 2.8s ease-out;
+  -ms-transition: all 2.8s ease-out;
+  -o-transition: all 2.8s ease-out;
+  transition: all 2.8s ease-out;
+}
+
+div.postbuild-1 {
+  -webkit-transition: all 0.4s ease-in;
+  -moz-transition: all 0.4s ease-in;
+  -ms-transition: all 0.4s ease-in;
+  -o-transition: all 0.4s ease-in;
+  transition: all 0.4s ease-in;
+}
+div.postbuild-2 {
+  -webkit-transition: all 0.7s ease-in;
+  -moz-transition: all 0.7s ease-in;
+  -ms-transition: all 0.7s ease-in;
+  -o-transition: all 0.7s ease-in;
+  transition: all 0.7s ease-in;
+}
+div.postbuild-3 {
+  -webkit-transition: all 1s ease-in;
+  -moz-transition: all 1s ease-in;
+  -ms-transition: all 1s ease-in;
+  -o-transition: all 1s ease-in;
+  transition: all 1s ease-in;
+}
+div.postbuild-4 {
+  -webkit-transition: all 1.6s ease-in;
+  -moz-transition: all 1.6s ease-in;
+  -ms-transition: all 1.6s ease-in;
+  -o-transition: all 1.6s ease-in;
+  transition: all 1.6s ease-in;
+}
+div.postbuild-5 {
+  -webkit-transition: all 2.8s ease-in;
+  -moz-transition: all 2.8s ease-in;
+  -ms-transition: all 2.8s ease-in;
+  -o-transition: all 2.8s ease-in;
+  transition: all 2.8s ease-in;
+}
+</style>
+</head>
+
+<body>
+
+<table style='width:100%; margin:0px; padding:2px; border:0px solid gray; border-spacing:0px;'>
+<tr><td><p id='hint-text'></p></td>
+  <td style='min-width:150px'>
+    <p style='text-align:right'>
+     <input id='cancel-btn' type='button' style='width:70px' value='Cancel'> &nbsp;
+    </p>
+  </td></tr>
+</table>
+
+<table class='prepost'>
+<tr style='text-align:center'>
+  <td style='width:145px'><b>pre-step</b></td>
+  <td rowspan='8' style='width:320px; text-align:left'>
+    <div class='slide-page'>
+      <div style='background:rgba(255,0,0,0.3); z-index:99; position:relative; width:300px; height:300px'></div>
+      <div style='background:rgba(0,255,0,0.3); border:0px solid gray; border-top-width:1px; z-index:101; position:relative; top:-150px; width:300px; height:150px'></div>
+      <div id='demo-img' style='z-index:100; position:relative; left:110px; top:-340px; width:80px; height:80px'>
+        <img style='width:100%; height:100%' src='/app/pinp/blogs/web/output/cse_logo.jpg' />
+      </div>
+    </div>
+  </td>
+  <td style='width:145px'><b>post-step</b></td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-0' checked='checked'><label for='pre-0'>disable</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-0' checked='checked'><label for='post-0'>disable</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-1'><label for='pre-1'>from top</label><br>
+    <input type='checkbox' id='pre-2'><label for='pre-2'>from right</label><br>
+    <input type='checkbox' id='pre-3'><label for='pre-3'>from bottom</label><br>
+    <input type='checkbox' id='pre-4'><label for='pre-4'>from left</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-1'><label for='post-1'>to top</label><br>
+    <input type='checkbox' id='post-2'><label for='post-2'>to right</label><br>
+    <input type='checkbox' id='post-3'><label for='post-3'>to bottom</label><br>
+    <input type='checkbox' id='post-4'><label for='post-4'>to left</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-5'><label for='pre-5'>top-right</label><br>
+    <input type='checkbox' id='pre-6'><label for='pre-6'>bottom-right</label><br>
+    <input type='checkbox' id='pre-7'><label for='pre-7'>bottom-left</label><br>
+    <input type='checkbox' id='pre-8'><label for='pre-8'>top-left</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-5'><label for='post-5'>top-right</label><br>
+    <input type='checkbox' id='post-6'><label for='post-6'>bottom-right</label><br>
+    <input type='checkbox' id='post-7'><label for='post-7'>bottom-left</label><br>
+    <input type='checkbox' id='post-8'><label for='post-8'>top-left</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-9'><label for='pre-9'>fade in</label><br>
+    <input type='checkbox' id='pre-10'><label for='pre-10'>rotate in</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-9'><label for='post-9'>fade out</label><br>
+    <input type='checkbox' id='post-10'><label for='post-10'>rotate out</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-11'><label for='pre-11'>pop topmost</label><br>
+    <input type='checkbox' id='pre-12'><label for='pre-12'>push bottom</label><br>
+    <input type='checkbox' id='pre-13'><label for='pre-13'>restore</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-11'><label for='post-11'>pop topmost</label><br>
+    <input type='checkbox' id='post-12'><label for='post-12'>push bottom</label><br>
+    <input type='checkbox' id='post-13'><label for='post-13'>restore</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <input type='checkbox' id='pre-14'><label for='pre-14'>scale from 0.6</label><br>
+    <input type='checkbox' id='pre-15'><label for='pre-15'>scale from 0.8</label><br>
+    <input type='checkbox' id='pre-16'><label for='pre-16'>scale from 1.2</label><br>
+    <input type='checkbox' id='pre-17'><label for='pre-17'>scale from 1.4</label>
+  </td>
+  <td>
+    <input type='checkbox' id='post-14'><label for='post-14'>scale to 0.6</label><br>
+    <input type='checkbox' id='post-15'><label for='post-15'>scale to 0.8</label><br>
+    <input type='checkbox' id='post-16'><label for='post-16'>scale to 1.2</label><br>
+    <input type='checkbox' id='post-17'><label for='post-17'>scale to 1.4</label>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <div id='preplay-18' style='display:none'><input type='checkbox' id='pre-18'><label for='pre-18'>play</label></div>
+    <div id='preplay-19' style='display:none'><input type='checkbox' id='pre-19'><label for='pre-19'>pause</label></div>
+  </td>
+  <td>
+    <div id='postplay-18' style='display:none'><input type='checkbox' id='post-18'><label for='post-18'>play</label></div>
+    <div id='postplay-19' style='display:none'><input type='checkbox' id='post-19'><label for='post-19'>pause</label></div>
+  </td>
+</tr>
+
+<tr>
+  <td style='outline:#666 solid 2px'>
+    <input type='checkbox' id='prespeed-1'><label for='prespeed-1'>fastest</label><br>
+    <input type='checkbox' id='prespeed-2'><label for='prespeed-2'>faster</label><br>
+    <input type='checkbox' id='prespeed-3' checked='checked'><label for='prespeed-3'>normal</label><br>
+    <input type='checkbox' id='prespeed-4'><label for='prespeed-4'>slower</label><br>
+    <input type='checkbox' id='prespeed-5'><label for='prespeed-5'>slowest</label><br>
+  </td>
+  <td>
+    <input type='checkbox' id='joinPrev' /><label for='joinPrev'>join to previous step</label>
+  </td>
+  <td style='outline:#666 solid 2px'>
+    <input type='checkbox' id='postspeed-1'><label for='postspeed-1'>fastest</label><br>
+    <input type='checkbox' id='postspeed-2'><label for='postspeed-2'>faster</label><br>
+    <input type='checkbox' id='postspeed-3' checked='checked'><label for='postspeed-3'>normal</label><br>
+    <input type='checkbox' id='postspeed-4'><label for='postspeed-4'>slower</label><br>
+    <input type='checkbox' id='postspeed-5'><label for='postspeed-5'>slowest</label>
+  </td>
+</tr>
+
+</table>
+
+<script src='output/js/edit_prepost.js'></script>
+</body>
+</html>

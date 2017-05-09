@@ -1,0 +1,18 @@
+[
+{"title":"PINP Blog","navPanelWidth":240,"storageExpiredDays":250,"ctrlPanelLib":""},
+
+[0,"0.","自述","md/readme.txt"],
+[0,"1.","介绍","md/1.indroduce.txt"],
+[1,"1.1.","安装拼文系统","md/1.1.prepare_system.txt"],
+[1,"1.2.","学习材料","md/1.2.references.txt"],
+[1,"1.3.","一个简单的例子","md/1.3.simple_app.txt"],
+[0,"2.","拼文编程快速入门","md/2.quick_start_program.txt"],
+[1,"2.1.","写作即编程","md/2.1.writing_is_programming.txt"],
+[1,"2.2.","使用链接表","md/2.2.use_link_table.txt"],
+[1,"2.3.","关联界面与底层实现","md/2.3.dev_scenarios.txt"],
+[0,"3.","编程接口","md/3.program_api.txt"],
+[1,"3.1.","chartJS统计图","md/3.1.api_chartjs.txt"],
+[1,"3.2.","mini_audio接口","md/3.2.api_audio.txt"],
+[1,"3.3.","doc_info文档信息","md/3.3.api_docinfo.txt"]
+
+]

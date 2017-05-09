@@ -1,0 +1,40 @@
+3.2 mini_audio 接口
+------------
+
+&nbsp;
+
+PINP blog 库为方便 Audio 音频构件设计，提供了两个预定义的 idSetter 函数，引用路径分别为：`".pinp.mini_audio"` 与 `".pinp.mini_audio.player"`。
+
+#### 迷你音频播放器的功能
+
+mini_audio 只用播放与暂停两种图标表达运行状态，鼠标点击可切换状态。
+
+<img style="width:60px; height:60px" src="md/res/mp3play.png">   
+（暂停状态）
+
+<img style="width:60px; height:60px" src="md/res/mp3playing.gif">   
+（播放状态）
+
+而在可视化设计时，mini_audio 播放器以浅色半透明方式表现，如下图：
+
+![mini player](md/res/audio_dsn.png)
+
+#### 转义标签示例
+
+``` html
+<div $=rewgt.PlayShell klass='default-hidden' width='{60}' height='{60}' 
+    play-img='lib/res/mp3playing.gif' idle-img='lib/res/mp3play.png' 
+    $id__='.pinp.mini_audio'>
+  <span $=Audio key='player' src='lib/res/horse.mp3' auto-play='' loop='' preload='auto' 
+    muted='' controls='controls' $id__='.pinp.mini_audio.player'></span>
+</div>
+```
+
+迷你音频播放器由两个节点组成，父节点是 `rewgt.PlayShell`，是 P 类构件，为 step 单步提供通用的 API 封装，它在 shadow-slide 库中定义（参见《Shadow Slide 用户手册》）。子节点是 Audio，由 `auto-play, loop, preload, muted, controls` 等属性控制其功能表现。
+
+本例中，PlayShell 的 `$id__` 函数及 Audio 的 `$id__` 函数，属固定搭配用法，主要实现如下功能：
+
+1. 显示播放状态的图标（由 `play-img` 与 `idle-img` 指示），点击切换播放状态。
+2. 在设计时，用浅色半透明表达 Audio 构件，暗示它是可选中用于配置属性的。而在正式运行时，隐藏原始的 `<audio>` 界面，因为我们已改用图标表达播放状态。
+
+&nbsp;

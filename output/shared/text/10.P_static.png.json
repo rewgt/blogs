@@ -1,0 +1,5 @@
+{
+  "name": "P_static",
+  "widget": [["P",{"klass":"default-large-small default-align_center-right p1-p2-p3-p0 visible-auto-hidden"}],["",{"html":["<p>Static paragraph</p>"]}]],
+  "scene": [["Div",{"data-group.optid":"pinp/blogs/steps","width":400,"klass":"default-large-small default-align_center-right p1-p2-p3-p0 visible-auto-hidden"}],["",{"html":["<p>Static paragraph</p>"]}]]
+}

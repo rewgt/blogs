@@ -1,0 +1,5 @@
+{
+  "name": "dialog",
+  "widget": ["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":8,"top":8,"width":32,"height":160,"stroke":3,"style":{"strokeColor":"#888","fillColor":"rgba(0,0,0,0.08)"},"svg.cfg":[0,[],"lib/res/dialog9.svg.json"]}],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S4","width":32,"height":160}],["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":3,"style":{"strokeColor":"#888","fillColor":"rgba(0,0,0,0.08)"},"svg.cfg":[0,[],"lib/res/dialog9.svg.json"]}]]
+}

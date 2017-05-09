@@ -1,0 +1,12 @@
+3. 编程接口
+-----------
+
+&nbsp;
+
+PINP blogs 项目（本库）提供针对 `DrawPaper` 与 `SvgPanel` 的绘图编辑器（也称 paper 编辑器），但 `DrawPaper` 与 `SvgPanel` 构件在 `shadow-slide` 项目中实现的，其 API 也请参考《Shadow Slide 用户手册》。
+
+&nbsp;
+
+- [3.1 chartJS 统计图](#3.1.)
+- [3.2 mini_audio 接口](#3.2.)
+- [3.3 doc_info 文档信息](#3.3.)

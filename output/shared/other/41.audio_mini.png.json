@@ -1,0 +1,9 @@
+{
+  "name":"audio_mini",
+  "widget":[ ["rewgt.PlayShell",{"klass":"default-hidden","width":60,"height":60,"playImg":"lib/res/mp3playing.gif","idleImg":"lib/res/mp3play.png","$id__":".pinp.mini_audio"}],
+    ["Audio",{"key":"player","src":"lib/res/horse.mp3","autoPlay":"","loop":"","preload":"auto","muted":"","controls":"controls","$id__":".pinp.mini_audio.player"}]
+  ],
+  "scene":[ ["rewgt.PlayShell",{"data-group.optid":"pinp/blogs/steps","klass":"default-hidden","width":60,"height":60,"playImg":"lib/res/mp3playing.gif","idleImg":"lib/res/mp3play.png","$id__":".pinp.mini_audio"}],
+    ["Audio",{"key":"player","src":"lib/res/horse.mp3","autoPlay":"","loop":"","preload":"auto","muted":"","controls":"controls","$id__":".pinp.mini_audio.player"}]
+  ]
+}

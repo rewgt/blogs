@@ -1,0 +1,5 @@
+{
+  "name": "member",
+  "widget": ["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","html.":"<pre $=MarkedTable width='{0.9999}'>\n<pre $=MarkedDiv td-style='{{\"width\":\"48px\",\"textAlign\":\"right\"}}'>\n![person](lib/res/memb_a.png)\n</pre>\n\n<pre $=MarkedDiv>\nRank Title  \nUser Name\n</pre>\n</pre>\n","left":8,"top":8,"width":172,"height":80,"style":{"strokeColor":"#888","fillColor":"rgba(0,0,0,0)"},"svg.cfg":[0,[],"lib/res/rect.svg.json"]}],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":172,"height":80}],["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","html.":"<pre $=MarkedTable width='{0.9999}'>\n<pre $=MarkedDiv td-style='{{\"width\":\"48px\",\"textAlign\":\"right\"}}'>\n![person](lib/res/memb_a.png)\n</pre>\n\n<pre $=MarkedDiv>\nRank Title  \nUser Name\n</pre>\n</pre>\n","left":0,"top":0,"width":0.9999,"height":0.9999,"style":{"strokeColor":"#888","fillColor":"rgba(0,0,0,0)"},"svg.cfg":[0,[],"lib/res/rect.svg.json"]}]]
+}

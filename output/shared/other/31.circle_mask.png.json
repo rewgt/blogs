@@ -1,0 +1,7 @@
+{
+  "name": "circle_mask",
+  "widget": ["rewgt.SvgPanel",{"klass":"items_center-end-stretch-default","left":8,"top":8,"width":120,"height":120,"stroke":30,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[0,[],"lib/res/frame00.svg.json"]}],
+  "scene": [ ["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/step1","width":200,"height":200,"borderWidth":20,"style":{"borderColor":"#ccc","opacity":"1"},"$for":""}],
+    ["rewgt.SvgPanel",{"left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":1,"$style":"{strokeColor:duals.style.borderColor,fillColor:duals.style.borderColor}","svg.cfg":[0,[],"lib/res/frame02.svg.json"]}]
+  ]
+}

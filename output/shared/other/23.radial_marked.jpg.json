@@ -1,0 +1,13 @@
+{
+  "name": "radial_marked",
+  "widget": [ ["Panel",{"width":160,"height":80,"klass":"visible-auto-hidden","borderWidth":0,"style":{"bk1Color":"#e6e6e6","bk2Color":"#999","bk3Color":"#666","brdColor":"#ccc","opacity":"0.9"},"$for":""}],
+    [ ["Panel",{"$style":"{borderColor:duals.style.brdColor,background:ex.vendorId()+'radial-gradient(center,ellipse cover,'+duals.style.bk1Color+','+duals.style.bk2Color+','+duals.style.bk3Color+')'}","klass":"round_mask-big default-round2-round0 solid-dotted-dashed no_shadow-lb-rb-rt-lt nowrap-default-wrap_reverse","borderWidth":0}],
+      ["MarkedDiv",{"klass":"default-large-small align_center-right-default p1-p2-p3-p0 self_center-start-end-stretch-default","style":{"color":"#fff"},"width":0.9999,"html.":"Markdown"}]
+    ]
+  ],
+  "scene": [ ["Panel",{"data-group.optid":"pinp/blogs/step3","width":160,"height":80,"klass":"visible-auto-hidden","borderWidth":0,"style":{"bk1Color":"#e6e6e6","bk2Color":"#999","bk3Color":"#666","brdColor":"#ccc","opacity":"0.9","zIndex":"-998"},"$for":""}],
+    [ ["Panel",{"data-is.ground":"1","$style":"{borderColor:duals.style.brdColor,background:ex.vendorId()+'radial-gradient(center,ellipse cover,'+duals.style.bk1Color+','+duals.style.bk2Color+','+duals.style.bk3Color+')'}","klass":"round_mask-big default-round2-round0 solid-dotted-dashed no_shadow-lb-rb-rt-lt nowrap-default-wrap_reverse","borderWidth":0}],
+      ["MarkedDiv",{"data-is.ground":"1","klass":"default-large-small align_center-right-default p1-p2-p3-p0 self_center-start-end-stretch-default","style":{"color":"#fff"},"width":0.9999,"html.":"Markdown"}]
+    ]
+  ]
+}

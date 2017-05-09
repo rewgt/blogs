@@ -1,0 +1,5 @@
+{
+  "name": "MarkedDiv",
+  "widget": ["MarkedDiv",{"width":280,"html.":"Title\n-----\n\n**Markdown text**\n","klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden"}],
+  "scene": ["MarkedDiv",{"data-group.optid":"pinp/blogs/step0","width":280,"html.":"Title\n-----\n\n**Markdown text**\n","klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden"}]
+}

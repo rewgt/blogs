@@ -1,0 +1,9 @@
+{
+  "name": "table",
+  "widget": ["MarkedTable",{"width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt rewgt-tbl tbl_03","borderWidth":1,"style":{"borderColor":"#fff"},
+    "html.": "Title A\n\nTitle B\n\n---\n\nRow1\n\nRow1\n\n---\n\nRow2\n\nRow2\n"
+  }],
+  "scene": ["MarkedTable",{"data-group.optid":"pinp/blogs/step0","width":320,"klass":"S5 default-large-small default-align_center-right p1-p2-p3-p0 no_shadow-lb-rb-rt-lt rewgt-tbl tbl_03","borderWidth":1,"style":{"borderColor":"#fff"},
+    "html.": "Title A\n\nTitle B\n\n---\n\nRow1\n\nRow1\n\n---\n\nRow2\n\nRow2\n"
+  }]
+}

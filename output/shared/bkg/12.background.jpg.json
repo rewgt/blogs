@@ -1,0 +1,9 @@
+{
+  "name": "background",
+  "widget": [ ["P",{"width":300,"height":200,"margin":0}],
+    ["Canvas",{"data-group.optid":"pinp/blogs/step4","style":{"background":"url(lib/res/background.jpg) no-repeat center","backgroundSize":"contain","width":"100%","height":"100%"}}]
+  ],
+  "scene": [ ["P",{"data-group.optid":"pinp/blogs/step2","width":300,"height":200,"margin":0,"style":{"zIndex":"-999"}}],
+    ["Canvas",{"data-group.optid":"pinp/blogs/step4","data-is.ground":"1","style":{"background":"url(lib/res/background.jpg) no-repeat center","backgroundSize":"contain","width":"100%","height":"100%"}}]
+  ]
+}

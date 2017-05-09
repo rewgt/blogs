@@ -1,0 +1,5 @@
+{
+  "name":"GotoPage",
+  "widget":["Div",{"html.":"Error: GotoPage only used in ScenePage"}],
+  "scene":[["rewgt.GotoPage",{"data-group.optid":"pinp/blogs/steps","width":180,"klass":"default-hidden small-default-large visible-auto-hidden default-align_center-right p1-p2-p3-p0","data-goto":"+1"}],[["P",{"data-goto":"","margin":0}],["Canvas",{"klass":"default-hidden rewgt-goto"}],["A",{"href":"javascript:void(0)","html.":"next page","style":{"verticalAlign":"super","marginLeft":"4px"}}]]]
+}

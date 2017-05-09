@@ -1,0 +1,5 @@
+{
+  "name": "other",
+  "widget": ["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":8,"top":8,"width":200,"height":180,"stroke":3,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[0,[],"lib/res/star16.svg.json"]}],
+  "scene": [["rewgt.DrawPaper",{"data-group.optid":"pinp/blogs/steps","data-inline":"1","klass":"default-large-small S5","width":200,"height":180}],["rewgt.SvgPanel",{"klass":"nowrap-default-wrap_reverse items_center-end-stretch-default","left":0,"top":0,"width":0.9999,"height":0.9999,"stroke":3,"style":{"strokeColor":"#888","fillColor":"#eee"},"svg.cfg":[0,[],"lib/res/star16.svg.json"]}]]
+}
