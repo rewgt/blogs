@@ -1,0 +1,12 @@
+# Node.JS specifics
+
+npm-debug.log
+node_modules
+
+# MacOSX specifics
+
+.DS_Store
+
+# product specifics
+
+*.bak
