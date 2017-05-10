@@ -38,10 +38,10 @@ npm start
 
 然后在浏览器访问 blogs 主页：`http://localhost:3000/blogs/`，创建、编辑、管理博客在该主页下进行。发布博客只需用 `git push` 命令把本机的 repository 提交到 github。
 
-## 本库博客地址
+## 文档
 
-<a target="_blank" rel="noopener" href="https://rewgt.github.io/blogs/">https://rewgt.github.io/blogs/</a>
+本库博客地址：<a target="_blank" rel="noopener" href="https://rewgt.github.io/blogs/">https://rewgt.github.io/blogs/</a>，如何撰写拼文，如何管理博客，如何提交等，在此博客的 `"Online help"` 子项里有介绍。
 
-如何撰写拼文，如何管理博客，如何提交等，在此博客的 `"Online help"` 子项里有介绍。
+<a target="_blank" rel="noopener" href="https://rewgt.github.io/blogs/output/doc/doc_zh/">点击这里阅读 PINP Blog 开发者手册</a>
 
 &nbsp;
