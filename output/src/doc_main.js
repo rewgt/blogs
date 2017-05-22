@@ -585,6 +585,12 @@ function menuId__(value,oldValue) {
         },
       });
     }
+    else if (value == 2) {
+      setTimeout( function() {
+        if (mainMenuComp_ && docEditable_)
+          mainMenuComp_.duals.style = {display:'block'};
+      },300);
+    }
     else if (value == 0)
       mainMenuComp_ = null;
     return;
@@ -626,7 +632,7 @@ var renewFromConfig = function(cfg,callback) {
     ];
     var jsonX3 = [ ['Panel',{key:'tool',klass:'nowrap-default-wrap_reverse',width:0.9999,height:36,borderWidth:[0,0,1,0],style:{position:'absolute',backgroundColor:'#d8d8d8',borderColor:'#ccc'}}],
       ['Div', {key:'menu', width:40, height:0.9999, title:'Main menu', $id__:menuId__,
-        style:{background:'url(output/res/menu.png) no-repeat center'},
+        style:{display:'none',background:'url(output/res/menu.png) no-repeat center'},
       }],
       [ ['Panel',{key:'cate',width:-1,height:0.9999}],
         ['P',{key:'list',klass:'right-default-align_center',width:0.9999,margin:[4,0,0,0],$id__:cateId__}],
