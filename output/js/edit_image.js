@@ -1,5 +1,27 @@
 // edit_image.js
 
+if (!Object.assign) { // polyfill function
+  Object.assign = function() {
+    var len = arguments.length;
+    if (len < 1) return {};
+    
+    var res = arguments[0];
+    if (typeof res != 'object') res = {};
+    
+    for(var i=1; i < len; i += 1) {
+      var obj = arguments[i];
+      if (typeof obj != 'object') continue;
+      
+      var keys = Object.keys(obj);
+      for(var j=0,item; item=keys[j]; j += 1) {
+        res[item] = obj[item];
+      }
+    }
+    
+    return res;
+  };
+}
+
 function onStart_() {
 
 var taskId = 0, inValue = null, cssList = [];
@@ -47,7 +69,7 @@ editor.addEventListener('drop', function(event) {
     if (appBase[0] != '/') appBase = '/' + appBase; // avoid bug of IE10
     var urlPath = location__(sUrl).pathname;
     if (urlPath[0] != '/') urlPath = '/' + urlPath;
-    if (urlPath.startsWith(appBase))
+    if (urlPath.indexOf(appBase) == 0)
       urlPath = urlPath.slice(appBase.length);
     
     editor.setAttribute('src',urlPath);

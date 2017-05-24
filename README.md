@@ -33,6 +33,7 @@ git clone https://github.com/<your_account>/blogs.git
 
 ``` bash
 cd shadow-server
+npm install
 npm start
 ```
 

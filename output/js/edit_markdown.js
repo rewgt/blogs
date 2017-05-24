@@ -120,7 +120,7 @@ function streamReactTree_(bTree,iLevel,iOwnerFlag) { // iOwnerFlag must be numbe
     }
     
     if (iFlag == 3) {
-      if (subRet.startsWith(sHeadSpace + '  '))
+      if (subRet.indexOf(sHeadSpace + '  ') == 0)
         sRet += ('>' + subRet.slice(sHeadSpace.length+2));
       else sRet += ('>' + subRet);
     }
@@ -156,7 +156,7 @@ function insertJsonX_(node,startPos,endPos,dOpt,iLevel) { // node is textarea
   if (!insTxt) return;
   if (iLevel > 0) {
     var sPre = new Array(iLevel+1).join('  ');
-    if (insTxt.startsWith(sPre)) insTxt = insTxt.slice(sPre.length);
+    if (insTxt.indexOf(sPre) == 0) insTxt = insTxt.slice(sPre.length);
   }
   
   if (typeof startPos == 'number') {
@@ -244,7 +244,7 @@ function onStart_() {
           if (appBase[0] != '/') appBase = '/' + appBase; // avoid bug of IE10
           var urlPath = location__(sUrl).pathname;
           if (urlPath[0] != '/') urlPath = '/' + urlPath;
-          if (urlPath.startsWith(appBase))
+          if (urlPath.indexOf(appBase) == 0)
             urlPath = urlPath.slice(appBase.length);
           
           var sHint = urlPath.split('/').pop();
@@ -300,7 +300,7 @@ function onStart_() {
         if (appBase[0] != '/') appBase = '/' + appBase; // avoid bug of IE10
         var urlPath = location__(sUrl).pathname;
         if (urlPath[0] != '/') urlPath = '/' + urlPath;
-        if (urlPath.startsWith(appBase))
+        if (urlPath.indexOf(appBase) == 0)
           urlPath = urlPath.slice(appBase.length);
         insTxt = '[' + urlPath.split('/').pop() + '](' + urlPath + ')';
       }
@@ -328,12 +328,12 @@ function onStart_() {
   markedEditor.addEventListener('paste', function(event) {
     var types = event.clipboardData.types, sText = '';
     for (var i=0,item; item=types[i]; i+=1) {
-      if (item == 'Text' || item.startsWith('text/')) {
+      if (item == 'Text' || item.indexOf('text/') == 0) {
         sText = event.clipboardData.getData(item);
         break;
       }
     }
-    if (!sText || !sText.startsWith(WIDGET_PASTE_TAG_)) return;
+    if (!sText || sText.indexOf(WIDGET_PASTE_TAG_) != 0) return;
     
     var iPos = sText.indexOf(',',WIDGET_PASTE_TAG_.length);
     if (iPos < 0 || iPos >= 32) return;
@@ -360,7 +360,7 @@ function onStart_() {
     
     if (iLevel > 0) {
       var sPre = new Array(iLevel+1).join('  ');
-      if (sHtml.startsWith(sPre)) sHtml = sHtml.slice(sPre.length);
+      if (sHtml.indexOf(sPre) == 0) sHtml = sHtml.slice(sPre.length);
     }
     
     if (typeof startPos == 'number') {

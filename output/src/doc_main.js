@@ -33,7 +33,7 @@ pinpPlugin.instantTool = [ {
     var sTitle,sUrl, sUrl2 = '', state = pinpPlugin.state, doc = state.doc;
     if (doc) {
       sTitle = doc.title || doc.path.split('/').pop(), sPath = doc.path;
-      if (sPath.startsWith('md/')) sPath = sPath.slice(3);
+      if (sPath.indexOf('md/') == 0) sPath = sPath.slice(3);
       sUrl   = 'index.html?doc=' + encodeURIComponent(sPath);
       sUrl2  = 'index.html?page=' + encodeURIComponent(sPath);
     }

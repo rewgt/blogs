@@ -76,7 +76,7 @@ editor.addEventListener('drop', function(event) {
       if (appBase[0] != '/') appBase = '/' + appBase; // avoid bug of IE10
       var urlPath = location__(sUrl).pathname;
       if (urlPath[0] != '/') urlPath = '/' + urlPath;
-      if (urlPath.startsWith(appBase))
+      if (urlPath.indexOf(appBase) == 0)
         insTxt = urlPath.slice(appBase.length);
       else insTxt = urlPath;
     }
@@ -88,7 +88,7 @@ editor.addEventListener('drop', function(event) {
       if (appBase[0] != '/') appBase = '/' + appBase; // avoid bug of IE10
       var urlPath = location__(sUrl).pathname;
       if (urlPath[0] != '/') urlPath = '/' + urlPath;
-      if (urlPath.startsWith(appBase))
+      if (urlPath.indexOf(appBase) == 0)
         insTxt = urlPath.slice(appBase.length);
       else insTxt = urlPath;
     }
