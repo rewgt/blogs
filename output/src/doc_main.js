@@ -788,33 +788,42 @@ main.$$onLoad.push( function(callback) {
   }
   
   function loadMdTxtFile(opt,callback) {
-    var b = opt.fileName.split('/'), sFile_ = b.pop();
-    if (b.length == 0) b.push('md');
+    var txtNode = document.body.querySelector('#pinp-mrkdn > code');
+    if (txtNode && txtNode.parentNode.nodeName == 'PRE')
+      nextStep(txtNode.innerHTML);
+    else {
+      var b = opt.fileName.split('/'), sFile_ = b.pop();
+      if (b.length == 0) b.push('md');
+      
+      var b2 = sFile_.split('.');
+      if (b2.length >= 2) b2.pop();
+      b2.push('txt');
+      b.push(b2.join('.'));
+      var sUrl = b.join('/');
+      
+      utils.ajax( { type:'GET', url:sUrl, dataType:'text',
+        success: function(data,statusText,xhr) {
+          nextStep(data);
+        },
+        error: function(xhr,statusText) {
+          var sMsg = 'error: load ' + sUrl + ' failed';
+          console.log(sMsg);
+          alert(sMsg);
+          callback(false,'','');
+        },
+      });
+    }
     
-    var b2 = sFile_.split('.');
-    if (b2.length >= 2) b2.pop();
-    b2.push('txt');
-    b.push(b2.join('.'));
-    var sUrl = b.join('/');
-    
-    utils.ajax( { type:'GET', url:sUrl, dataType:'text',
-      success: function(data,statusText,xhr) {
-        var sMarked, sPages = '', b = data.split(markdown_splitor_);
-        if (b.length >= 2) {
-          if (b.length > 2) console.log('warning: PINP document format error!');
-          sMarked = b[0];
-          sPages = b[1].trim();
-        }
-        else sMarked = data;
-        callback(true,sMarked,sPages);
-      },
-      error: function(xhr,statusText) {
-        var sMsg = 'error: load ' + sUrl + ' failed';
-        console.log(sMsg);
-        alert(sMsg);
-        callback(false,'','');
-      },
-    });
+    function nextStep(data) {
+      var sMarked, sPages = '', b = data.split(markdown_splitor_);
+      if (b.length >= 2) {
+        if (b.length > 2) console.log('warning: PINP document format error!');
+        sMarked = b[0];
+        sPages = b[1].trim();
+      }
+      else sMarked = data;
+      callback(true,sMarked,sPages);
+    }
   }
   
   function scanScenePage(gui,node,wtcCls,idx) {
