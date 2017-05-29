@@ -372,7 +372,14 @@ function newDocPropNode(aFile) {
     var zipBtn = document.createElement('button');
     zipBtn.innerHTML = 'Create zip';
     zipBtn.onclick = function(event) {
-      postAsynRequest('../$zip_doc',{path:sPath}, function(err,sInfo) {
+      var req = {path:sPath};
+      var aFile = getFileInList(sPath,false);
+      if (aFile) {
+        if (aFile.title) req.title = aFile.title;
+        if (aFile.desc) req.desc = aFile.desc;
+        if (aFile.keyword) req.keyword = aFile.keyword;
+      }
+      postAsynRequest('../$zip_doc',req, function(err,sInfo) {
         if (err) {
           var sMsg = 'create zip file failed.';
           console.log('error: ' + sMsg);

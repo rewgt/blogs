@@ -790,7 +790,7 @@ main.$$onLoad.push( function(callback) {
   function loadMdTxtFile(opt,callback) {
     var txtNode = document.body.querySelector('#pinp-mrkdn > code');
     if (txtNode && txtNode.parentNode.nodeName == 'PRE')
-      nextStep(txtNode.innerHTML);
+      nextStep(txtNode.innerHTML,false);
     else {
       var b = opt.fileName.split('/'), sFile_ = b.pop();
       if (b.length == 0) b.push('md');
@@ -803,18 +803,18 @@ main.$$onLoad.push( function(callback) {
       
       utils.ajax( { type:'GET', url:sUrl, dataType:'text',
         success: function(data,statusText,xhr) {
-          nextStep(data);
+          nextStep(data,true);
         },
         error: function(xhr,statusText) {
           var sMsg = 'error: load ' + sUrl + ' failed';
           console.log(sMsg);
           alert(sMsg);
-          callback(false,'','');
+          callback(false,'','',false);
         },
       });
     }
     
-    function nextStep(data) {
+    function nextStep(data,adjustTitle) {
       var sMarked, sPages = '', b = data.split(markdown_splitor_);
       if (b.length >= 2) {
         if (b.length > 2) console.log('warning: PINP document format error!');
@@ -822,7 +822,7 @@ main.$$onLoad.push( function(callback) {
         sPages = b[1].trim();
       }
       else sMarked = data;
-      callback(true,sMarked,sPages);
+      callback(true,sMarked,sPages,adjustTitle);
     }
   }
   
@@ -847,11 +847,13 @@ main.$$onLoad.push( function(callback) {
     var mainMarkComp = null;
     var isSubWindow  = window.parent.window && window.parent.window !== window;
     
-    loadMdTxtFile(opt, function(succ,sMark,sPages) {
+    loadMdTxtFile(opt, function(succ,sMark,sPages,adjustTitle) {
       if (!succ) return callback();   // load file failed
       
-      var sTitle = tryGetTitle(sMark+'\n'+sPages);
-      if (sTitle) document.title = sTitle;
+      if (adjustTitle) {
+        var sTitle = tryGetTitle(sMark+'\n'+sPages);
+        if (sTitle) document.title = sTitle;
+      }
       
       var bodyComp = W.W('.body').component; // body node must exists
       var bPage = [];
