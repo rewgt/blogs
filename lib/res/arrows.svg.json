@@ -1,4 +1,4 @@
-﻿{
+﻿W.$svg["arrows"]={
 "mrk1_start": "<marker id='mrk1_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)'><line stroke-width='20' x1='0' y1='50' x2='50' y2='50'/></g></marker>",
 "mrk2_start": "<marker id='mrk2_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><path stroke-width='10' d='m0,50l100,40l-30,-40l30,-40z'/></g></marker>",
 "mrk3_start": "<marker id='mrk3_start' refY='50' refX='50' markerHeight='5' markerWidth='5' viewBox='0 0 100 100' orient='auto' markerUnits='strokeWidth'><g _cfg='' stroke='rgb(0,0,0)' fill='none'><circle stroke-width='10' cy='50' cx='50' r='30'/></g></marker>",
