@@ -51,4 +51,10 @@ npm start
 
 <a target="_blank" rel="noopener" href="https://rewgt.github.io/blogs/output/doc/doc_zh/">点击这里阅读 PINP Blog 开发者手册</a>
 
+## 版权
+
+本库采用 WTFPL 协议（Do What The Fuck You Want To Public License）。
+
+本库的本地编辑环境依赖于 [`shadow-server`](https://github.com/rewgt/shadow-server) 项目，`shadow-server` 按 `BSD 3-clause` 协议开源。
+
 &nbsp;
