@@ -1,8 +1,8 @@
 {
-  "name":"pinp/blogs/steps",
-  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"doughnut1"}],
+  "name":"pinp/blogs/step1",
+  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"doughnut1","$for":""}],
     ["RefSpan",{ "$":".pinp.charts.doughnut", "key":"doughnut1",
-      "style":{"width":"100%","height":"100%"},
+      "$style":"{width:duals(-1).width+'px',height:duals(-1).height+'px'}",
       "html.":"labels=One,Two,Three,Four,Five,Six\ntitle.text=\nlegend.display=true\nlegend.position=top\nlegend.showPercent=false\ncutoutPercentage=50\n---\n\nbackgroundColor=\n64 12 30 82 56 36\n"
     }]
   ]

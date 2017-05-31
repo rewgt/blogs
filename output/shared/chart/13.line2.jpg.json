@@ -1,8 +1,8 @@
 {
-  "name":"pinp/blogs/steps",
-  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"line2"}],
+  "name":"pinp/blogs/step1",
+  "widget":[ ["P",{"width":300,"height":260,"data-dsn-sizes":"line2","$for":""}],
     ["RefSpan",{ "$":".pinp.charts.line", "key":"line2",
-      "style":{"width":"100%","height":"100%"},
+      "$style":"{width:duals(-1).width+'px',height:duals(-1).height+'px'}",
       "html.":"title.text=\nlegend.display=true\nlegend.position=bottom\nscales.yAxes.0.gridLines.display=true\nscales.yAxes.0.position=right\nscales.yAxes.0.ticks.reverse=true\nscales.xAxes.0.gridLines.display=true\nscales.xAxes.0.position=top\n---\n\nlabel=Item A\nfill=true\nlineTension=0.4\nborderWidth=2\n20,65 30,59 46,80 58,81 70,56 76,55 80,40\n---\nlabel=Item B\nfill=true\nlineTension=0.4\nborderWidth=2\n20,75 25,89 36,74 48,91 52,40 60,48 70,32\n"
     }]
   ]
