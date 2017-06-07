@@ -31,7 +31,7 @@ npm install
 npm start
 ```
 
-然后在浏览器访问 blogs 主页：`http://localhost:3000/blogs/`，创建、编辑、管理博客在该主页下进行。发布博客只需用 `git push` 命令把本机的 repository 提交到 github。
+然后在浏览器访问 blogs 主页：`http://localhost:3000/blogs/`，创建、编辑、管理博客在该主页下进行。发布博客只需用 `git push` 命令把本机的 repository 提交到 github 的 `gh-pages` 分支。
 
 当您有博客 push 到 github 后，应能按如下地址访问自己的 github 博客主页：
 
@@ -39,7 +39,7 @@ npm start
 https://<your_account>.github.io/blogs/
 ```
 
-请自行替换上面 URL 中的 `"<your_account>"`，当然，您还应修改 `README.md` 文件，删除无关内容，公布自己的博客主页，方便他人点击进入。
+请自行替换上面 URL 中的 `"<your_account>"`，当然，您还应修改 `README.md` 文件，删除无关内容，并公布自己博客主页的链接。
 
 ## 使用限制
 
