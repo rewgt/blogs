@@ -39,7 +39,7 @@ function getAsynRequest(sUrl,callback) {  // callback must passed
   }
 }
 
-var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE. -->/;
+var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE\. -->/;
 
 var sourFileLoaded = false;
 var slidesOfSour = '';

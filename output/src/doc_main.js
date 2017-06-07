@@ -85,7 +85,7 @@ pinpPlugin.msgHandle = {
 };
 
 //---------------
-var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE. -->/;
+var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE\. -->/;
 
 var creator = null;
 
@@ -788,9 +788,25 @@ main.$$onLoad.push( function(callback) {
   }
   
   function loadMdTxtFile(opt,callback) {
-    var txtNode = document.body.querySelector('#pinp-mrkdn > code');
-    if (txtNode && txtNode.parentNode.nodeName == 'PRE')
-      nextStep(txtNode.innerHTML,false);
+    var s1 = '', s2 = '', nodes = document.body;
+    for (var i=nodes.childNodes.length-1; i >= 0; i--) {
+      var tmpNode = nodes.childNodes[i];
+      if (tmpNode.nodeType == 8) { // comment node
+        var s = tmpNode.nodeValue, iPos = s.indexOf('SLIDE PAGES: PART ');
+        if (iPos >= 0) {
+          var ch = s[iPos+18];
+          if (ch == 'A') {
+            s1 = s.slice(iPos + 19);
+            break;
+          }
+          else if (ch == 'B')
+            s2 = s.slice(iPos + 19);
+        }
+      }
+    }
+    
+    if (s1 || s2)
+      nextStep(s1,false,s2);
     else {
       var b = opt.fileName.split('/'), sFile_ = b.pop();
       if (b.length == 0) b.push('md');
@@ -814,14 +830,21 @@ main.$$onLoad.push( function(callback) {
       });
     }
     
-    function nextStep(data,adjustTitle) {
-      var sMarked, sPages = '', b = data.split(markdown_splitor_);
-      if (b.length >= 2) {
-        if (b.length > 2) console.log('warning: PINP document format error!');
-        sMarked = b[0];
-        sPages = b[1].trim();
+    function nextStep(data,adjustTitle,sExt) {
+      var sMarked, sPages = '';
+      if (typeof sExt == 'string') {
+        sMarked = data;
+        sPages = sExt;
       }
-      else sMarked = data;
+      else {
+        var b = data.split(markdown_splitor_);
+        if (b.length >= 2) {
+          if (b.length > 2) console.log('warning: PINP document format error!');
+          sMarked = b[0];
+          sPages = b[1].trim();
+        }
+        else sMarked = data;
+      }
       callback(true,sMarked,sPages,adjustTitle);
     }
   }

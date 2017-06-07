@@ -15,7 +15,7 @@ var ReactDOM = require('react-dom');
 var W = require('shadow-widget');
 var main = W.$main, utils = W.$utils, ex = W.$ex, idSetter = W.$idSetter;
 
-var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE. -->/;
+var markdown_splitor_ = /<\!-- SLIDE PAGES V[.0-9]+, DO NOT CHANGE THIS LINE\. -->/;
 
 function getUrlParam(s) {
   var dRet = {}, b = s.split('&');
