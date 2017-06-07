@@ -7,12 +7,6 @@
 
 第 1 步，在 github.com 打开本库，即 [rewgt/blogs](https://github.com/rewgt/blogs)，点击右上角的 fork 按钮，将本库 fork 到您自己的账号下。
 
-Fork 后，您应能按如下地址访问自己的 github 博客主页：
-
-```
-https://<your_account>.github.io/blogs/
-```
-
 第 2 步，在本机安装 shadow-widget 运行环境
 
 ``` bash
@@ -38,6 +32,14 @@ npm start
 ```
 
 然后在浏览器访问 blogs 主页：`http://localhost:3000/blogs/`，创建、编辑、管理博客在该主页下进行。发布博客只需用 `git push` 命令把本机的 repository 提交到 github。
+
+当您有博客 push 到 github 后，应能按如下地址访问自己的 github 博客主页：
+
+```
+https://<your_account>.github.io/blogs/
+```
+
+请自行替换上面 URL 中的 `"<your_account>"`，当然，您还应修改 `README.md` 文件，删除无关内容，公布自己的博客主页，方便他人点击进入。
 
 ## 使用限制
 
