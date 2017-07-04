@@ -467,8 +467,10 @@ function repoId__(value,oldValue) {
       });
     }
     else if (value == 2) {
-      onRepoChange(); // must have one repo (root repo)
-      tryImportRepo(bDocRepos_[0][0].imported_repos || []);
+      setTimeout( function() {
+        onRepoChange(); // must have one repo (root repo)
+        tryImportRepo(bDocRepos_[0][0].imported_repos || []);
+      },100);
     }
     else if (value == 0)
       repoSelComp_ = null;
