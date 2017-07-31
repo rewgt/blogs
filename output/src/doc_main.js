@@ -233,7 +233,7 @@ function listId__(value,oldValue) {
   }
   
   var parentWd = this.state.parentWidth, sRepoBase = undefined;
-  var ctxWd = parentWd >= 500? 500: (parentWd > 300? 0.9: 270);
+  var ctxWd = parentWd >= 480? 480: (parentWd > 300? 0.9: 270);
   var bList = this.state.data || [];
   var bEle = bList.map( function(item) {
     var sKey = item.keyId, sThumb = item.thumb, sTitle = item.title || sKey;
@@ -285,7 +285,7 @@ function listId__(value,oldValue) {
     return utils.loadElement(jsonX);
   });
   
-  var numOfRow = parentWd >= 1000? Math.floor(parentWd/500): 1;
+  var numOfRow = parentWd >= 480? Math.floor(parentWd/480): 1;
   if (numOfRow >= 2) {
     var iMod = bEle.length % numOfRow;
     while (iMod > 0) {
