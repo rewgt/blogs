@@ -26,11 +26,24 @@ function initGui() {
   textChanged = false;
 }
 
+function safeContent(s) { // safe get char such as: &larr; &rarr;
+  if (!s) return '';
+  
+  var node = document.createElement('p');
+  try {
+    node.innerHTML = s;
+    return node.textContent;
+  }
+  catch(e) {
+    return '';
+  }
+}
+
 function closeDialog(isClose,isCancel,byParent) {
   var outValue = null, changed = true;
   if (isCancel || !textChanged)
     changed = false;
-  else outValue = editor.value;
+  else outValue = safeContent(editor.value);
   
   var s = '[PROJECT_NAME]' + JSON.stringify({method:'onDialogExit',param:[isClose,changed,taskId,[changed,outValue]]});
   window.parent.window.postMessage(s,'*');
