@@ -290,7 +290,7 @@ function listId__(value,oldValue) {
     var iMod = bEle.length % numOfRow;
     while (iMod > 0) {
       iMod -= 1;
-      bEle.push(utils.loadElement(['Panel',{key:'_pad'+iMod,width:ctxWd,height:120}]));
+      bEle.push(utils.loadElement(['Panel',{key:'_pad'+iMod,width:ctxWd,height:120,borderWidth:[1,0,0,0],style:{borderColor:'#eee'}}]));
     }
   }
   utils.setChildren(this,bEle);
