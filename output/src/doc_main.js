@@ -249,7 +249,7 @@ function listId__(value,oldValue) {
       else sThumb = 'lib/res/slideshow.jpg'; // urlBase is ''
     }
     
-    var jsonXImg = ['P',{key:'thumb',klass:'self_center-start-end-stretch-default',width:150,height:120}];
+    var jsonXImg = ['P',{key:'thumb',klass:'start-end-stretch-default-self_center',width:150,height:120}];
     jsonXImg = [jsonXImg,['Img', {key:'img',name:sKey,src:sThumb,
       style:{cursor:'pointer',width:'100%',height:'100%'},
       $onClick: tryOpenDoc,
@@ -281,7 +281,7 @@ function listId__(value,oldValue) {
     bInfoX.push(['Span',{key:'modi','html.':docTimeStr(new Date(item.modify_at)),title:item.path.split('/').pop(),style:{cursor:'default'}}]);
     jsonXCtx.push(bInfoX);
     
-    var jsonX = [['Panel',{key:sKey,width:ctxWd,height:null,padding:[6,0,6,0]}],jsonXImg,jsonXCtx];
+    var jsonX = [['Panel',{key:sKey,width:ctxWd,height:null,padding:[6,0,6,0],borderWidth:[1,0,0,0],style:{borderColor:'#eee'}}],jsonXImg,jsonXCtx];
     return utils.loadElement(jsonX);
   });
   

@@ -8,6 +8,10 @@ var ReactDOM = require('react-dom');
 var W = require('shadow-widget');
 var main = W.$main, utils = W.$utils, ex = W.$ex, idSetter = W.$idSetter, creator = W.$creator;
 
+idSetter['.pinp.blog.version'] = function() {
+  return '1.1.2';
+};
+
 var re_seperator_ = /^---+$/;
 var re_assign_    = /^[$_a-zA-Z][$_.a-zA-Z0-9]*=/;
 var re_whitechar_ = /[^-+,._A-Za-z0-9]+/;
