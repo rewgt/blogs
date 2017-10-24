@@ -34,7 +34,9 @@ function location__(href) {
       if (b[0] === '') b.shift();  // b = ['rewgt','blogs',...]
       
       var sUrl = '//' + b[0] + '.github.io/' + b[1] + '/';
-      window.open(sUrl,'_self');
+      setTimeout( function() {
+        window.open(sUrl,'_self');
+      }, 1000);   // help location GO BACK
       return;
     }
   }
