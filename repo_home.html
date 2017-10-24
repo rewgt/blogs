@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Jump to blog homepage</title>
+<style>
+.fail-info {
+  display: none;
+  color: red;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<p>Try jump to: //&lt;account&gt;.github.io/&lt;repo&gt;/</p>
+<p><span>... </span><span class='fail-info'>Failed!</span></p>
+
+<script>
+function location__(href) {
+  var location = document.createElement('a');
+  location.href = href;
+  if (location.host == '')
+    location.href = location.href;
+  return location;
+}
+
+( function(sRefer) {
+  if (sRefer && typeof sRefer == 'string') {
+    var loc = location__(sRefer);
+    if (loc.hostname == 'github.com') {
+      var b = loc.pathname.split('/');
+      if (b[0] === '') b.shift();  // b = ['rewgt','blogs',...]
+      
+      var sUrl = '//' + b[0] + '.github.io/' + b[1] + '/';
+      window.open(sUrl,'_self');
+      return;
+    }
+  }
+  
+  var node = document.querySelector('.fail-info');
+  if (node) node.style.display = 'inline';
+})(document.referrer);
+
+</script>
+
+</body>
+</html>
