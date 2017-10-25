@@ -14,7 +14,7 @@
 
 <body>
 
-<p>Try jump to: //&lt;account&gt;.github.io/&lt;repo&gt;/</p>
+<p>Try jump to https://&lt;account&gt;.github.io/&lt;repo&gt;/</p>
 <p><span>... </span><span class='fail-info'>Failed!</span></p>
 
 <script>
@@ -36,7 +36,7 @@ function location__(href) {
       var sUrl = '//' + b[0] + '.github.io/' + b[1] + '/';
       setTimeout( function() {
         window.open(sUrl,'_self');
-      }, 1000);   // help location GO BACK
+      }, 600);    // delay can help location GO BACK
       return;
     }
   }
