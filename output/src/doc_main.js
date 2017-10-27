@@ -13,6 +13,8 @@ var nullCateName_ = 'All';
 var bDocRepos_ = [];  // [[dCfg,bSort,sDesc,sUrlBase],...]
 var renewFromConfig = function(cfg,callback) { };
 
+var gitToken_ = '';
+
 //---------------
 var pinpPlugin = { state:{repo:'',repoDesc:'',category:nullCateName_,doc:null,url:''} };
 
@@ -22,6 +24,18 @@ function location__(href) {
   if (location.host == '')
     location.href = location.href;
   return location;
+}
+
+function fetchGitToken(callback) {
+  var sUrl = '//rewgt.github.io/blogs/output/repo_issue.json';
+  utils.ajax( { type:'GET', url:sUrl, dataType:'json',
+    success: function(data,statusText,xhr) {
+      callback(data);
+    },
+    error: function(xhr,statusText) {
+      console.log('error: load ' + sUrl + ' failed');
+    },
+  });
 }
 
 pinpPlugin.instantTool = [ {
@@ -162,6 +176,9 @@ function tryOpenDoc_(sKeyId) {
     if (aFile) {
       var sFile = aFile.path.split('/').pop(), repoCfg = items[0], repoBase = items[3];
       var sDocUrl = repoBase + 'index.html?page=' + encodeURIComponent(sFile);
+      if (typeof aFile.create_at == 'number') sDocUrl += '&tm=' + aFile.create_at;
+      if (gitToken_) sDocUrl += '&token=' + gitToken_;
+      
       previewComp_.duals.src = sDocUrl;
       listRootComp_.duals.style = {visibility:'hidden'};
       
@@ -612,7 +629,7 @@ var renewFromConfig = function(cfg,callback) {
     if (!callback && storageCfg)  // !callback means from pop window
       storageCfg.setItem('lastCate',nullCateName_); // try show all, doc list maybe changed
     
-    bodyComp.setChild('-doc','-list','-tool', function(changed) {
+    bodyComp.setChild('-doc','-list','-tool','-comment', function(changed) {
       toolbarComp_  = null; previewComp_  = null;
       listRootComp_ = null; instToolComp_ = null;
       nextStep();
@@ -757,6 +774,140 @@ function onWinMessage(msg) {
   }
 }
 
+var commentComp_ = null, commentCss_ = null, commentUrl_ = null;
+
+function commentId__(value,oldValue) {
+  if (value <= 2) {
+    if (value == 1) {
+      if (this.props.fileId) {  // have props.fileId means <div $='.body.comment'>
+        commentComp_ = this;
+        
+        if (gitToken_)
+          getComment({token:gitToken_});
+        else {
+          fetchGitToken( function(data) {
+            gitToken_ = data.token;
+            getComment(data);
+          });
+        }
+      }
+      
+      this.defineDual('comments');
+    }
+    return;
+  }
+  
+  var bComm = this.state.comments;
+  if (!Array.isArray(bComm)) return;
+  
+  var bEle = [utils.loadElement(['Hr',{key:'hr',margin:[40,0,30,0],style:{borderColor:'#ddd'}}])];
+  var nullWd = [null,null,null,null];
+  bComm.forEach( function(item) {
+    var updateTm = item.updatedAt;
+    if (typeof updateTm == 'string')
+      updateTm = (new Date(updateTm)).toLocaleDateString();
+    else updateTm = '';
+    
+    bEle.push( utils.loadElement( [ ['Panel',{key:'a'+item.id,height:null}],
+      [ ['Div2',{key:'avatar',klass:'blog-avatar',width:50,left:null,top:null}],
+        [ ['A',{key:'a',target:'_blank',href:item.userUrl}],
+          ['Img',{key:'img',klass:'avatar-img',src:item.userIcon}],
+        ],
+      ],
+      [ ['Div',{key:'comment',klass:'blog-comment right',width:-0.96,left:null,top:null,margin:nullWd,borderWidth:nullWd,padding:nullWd}],
+        ['Div2',{key:'arrow',klass:'arrow',left:null,top:null,width:null,height:null,margin:nullWd,borderWidth:nullWd,padding:nullWd}],
+        [ ['P',{key:'title',klass:'comment-title',left:null,top:null,width:null,height:null,margin:nullWd,borderWidth:nullWd,padding:nullWd}],
+          [ ['Strong',{key:'b'}],
+            ['A',{key:'a',target:'_blank',href:item.userUrl,'html.':item.userLogin}],
+          ],
+          ['Span',{key:'info','html.':' commented at ' + updateTm}],
+        ],
+        ['MarkedDiv',{key:'txt',padding:[9,14,9,14],'html.':item.body}],
+      ],
+    ]));
+    
+    bEle.push(utils.loadElement(['Div',{key:'b'+item.id,klass:'blog-clearfix',width:0.9999}]));
+  });
+  
+  bEle.push( utils.loadElement( [ ['P',{key:'add_comm',width:0.9999,padding:[4,0,20,60]}],
+    ['Button',{key:'btn','html.':'I wanna leave a comment ...',$onClick:onNewComment}],
+  ]));
+  
+  utils.setChildren(this,bEle);
+  
+  function getComment(account) {
+    if (!commentCss_) {
+      commentCss_ = document.createElement('link');
+      commentCss_.rel = 'stylesheet';
+      commentCss_.type = 'text/css';
+      commentCss_.href = 'lib/comments.css';
+      document.body.appendChild(commentCss_);
+    }
+    
+    var sVendor = commentComp_.props.vendor;
+    var Git = utils.gitOf('api.github.com','https');
+    Git.siteAuth = 'Basic ' + account.token;
+    var gitUser = new Git.User(sVendor);
+    var gitBranch = new Git.Branch(gitUser,commentComp_.props.repo,'gh-pages');
+    
+    var tm = commentComp_.props.fileTime || 0;
+    if (typeof tm == 'number') {
+      tm -= 86400000;  // 24 * 60 * 60 * 1000 = 86400000
+      if (tm < 0) tm = 0;
+    }
+    else tm = 0;
+    var sSince = (new Date(tm)).toISOString();
+        
+    gitBranch.fetchIssues( function(err) {
+      if (err) return;
+      
+      var sFileId = commentComp_.props.fileId;
+      var i = 0, iLen = gitBranch.issues.length, found = null;
+      while (i < iLen) {
+        var issue = gitBranch.issues[i++];
+        if ((issue.title||'').indexOf(sFileId) == 0) {
+          found = issue;
+          break;
+        }
+      }
+      
+      if (found) {
+        if (found.comments) {
+          found.fetchComments( function(err,bList) {
+            if (!err) {
+              commentUrl_ = 'https://github.com/' + sVendor + '/' + found.repoName + '/issues/' + found.number;
+              showComment(found,bList);
+            }
+          });
+        }
+        else showComment(found,[]);
+      }
+    },{since:sSince,direction:'asc',sort:'created',state:'open'});
+  }
+  
+  function showComment(issue,comments) {
+    var bComm = [];
+    comments.forEach( function(item) {
+      var user = item.user || {};
+      bComm.push( {
+        id: item.id,
+        body: item.body,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        userIcon: user.avatar_url,
+        userLogin: user.login,
+        userUrl: user.html_url,
+      });
+    });
+    commentComp_.duals.comments = bComm;
+  }
+  
+  function onNewComment(event) {
+    if (commentUrl_)
+      window.open(commentUrl_,'_blank');
+  }
+}
+
 main.$$onLoad.push( function(callback) {
   if (creator || W.__design__) return callback();
   creator = W.$creator;
@@ -766,16 +917,34 @@ main.$$onLoad.push( function(callback) {
   var opt = locationInfo(window.location);
   var urlOpt = getUrlParam(window.location.search.slice(1));
   if (urlOpt.page) opt.fileName = decodeURIComponent(urlOpt.page);
+  if (urlOpt.tm) opt.fileTime = parseFloat(urlOpt.tm);
+  if (urlOpt.token) opt.token = urlOpt.token;
   
   if (opt.fileName != 'index.html')
     return directOpenFile();
-  else return showDocList(opt,urlOpt,callback); // opt.fileName == 'index.html'
+  else {
+    if (opt.isGitio && !gitToken_) {
+      fetchGitToken( function(data) {
+        gitToken_ = data.token;
+      });
+    }
+    return showDocList(opt,urlOpt,callback); // opt.fileName == 'index.html'
+  }
   
   function locationInfo(loc) {
-    return { isFile: loc.protocol == 'file:',
+    var opt = { isFile: loc.protocol == 'file:',
       isLocal: (loc.hostname == 'localhost' || loc.hostname == '127.0.0.1'),
       fileName: loc.pathname.split('/').pop() || 'index.html',
+      isGitio: loc.hostname.indexOf('.github.io') > 0,
     };
+    
+    if (opt.isGitio) {
+      opt.vendor = loc.hostname.split('.')[0];
+      var b = loc.pathname.split('/');
+      if (b[0] === '') b.shift();
+      opt.repo = b[0];
+    }
+    return opt;
   }
   
   function getUrlParam(s) {
@@ -881,6 +1050,19 @@ main.$$onLoad.push( function(callback) {
       }
       
       var bodyComp = W.W('.body').component; // body node must exists
+      if (opt.isGitio) { // from xxx.github.io
+        var sFileId = opt.fileName.split('/').pop().split('.')[0];
+        
+        if (opt.token) gitToken_ = opt.token;
+        sMark += '\n\n<div $=".body.comment" file-id="' + sFileId + '"></div>\n';
+        var commentEle = utils.loadElement(['Panel', { key:'comment',
+          width:0.9999, height:null, style:{display:'none'},
+          $id__:commentId__, fileTime:opt.fileTime||0,
+          vendor:opt.vendor, repo:opt.repo,
+        }]);
+        bodyComp.setChild(commentEle);
+      }
+      
       var bPage = [];
       if (sPages) {
         var clsSet = utils.getWTC('ScenePage'), wtcCls = clsSet.ScenePage; // must exists
@@ -987,13 +1169,17 @@ main.$$onLoad.push( function(callback) {
         }
       }
       
-      var ele = utils.loadElement(['MarkedDiv', { key:'marked_doc',
+      var blogEle = utils.loadElement(['MarkedDiv', { key:'marked_doc',
         width:0.9999, height:0.9999, margin:0, padding:[24,6,6,6],
         klass:'auto-hidden-visible', style:{backgroundColor:'#fff'},
       }]);
-      bodyComp.setChild(ele, function(changed) {
+      bodyComp.setChild(blogEle, function(changed) {
         var child = bodyComp.componentOf('marked_doc');
-        if (child) child.duals['html.'] = sMark;
+        if (child) {
+          setTimeout( function() {
+            child.duals['html.'] = sMark;
+          },300);  // ensure .body.comment be ready
+        }
       });
       callback();
     });
