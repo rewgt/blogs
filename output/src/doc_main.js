@@ -857,7 +857,7 @@ function commentId__(value,oldValue) {
     }
     else tm = 0;
     var sSince = (new Date(tm)).toISOString();
-        
+    
     gitBranch.fetchIssues( function(err) {
       if (err) return;
       
@@ -872,12 +872,11 @@ function commentId__(value,oldValue) {
       }
       
       if (found) {
+        commentUrl_ = 'https://github.com/' + sVendor + '/' + gitBranch.repoName + '/issues/' + found.number;
         if (found.comments) {
           found.fetchComments( function(err,bList) {
-            if (!err) {
-              commentUrl_ = 'https://github.com/' + sVendor + '/' + found.repoName + '/issues/' + found.number;
+            if (!err)
               showComment(found,bList);
-            }
           });
         }
         else showComment(found,[]);
