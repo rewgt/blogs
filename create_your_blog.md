@@ -1,6 +1,3 @@
-在 github 托管拼文博客系统
-------------
-
 ## 如何 Fork 本库，创建自己的博客系统
 
 第 1 步，在 github.com 打开本库，即 [rewgt/blogs](https://github.com/rewgt/blogs)，点击右上角的 fork 按钮，将本库 fork 到您自己的账号下。

@@ -1,4 +1,4 @@
 
-[打开本博客站点](https://rewgt.github.io/blogs/output/repo_home.html)
+[点击这里打开本博客](https://rewgt.github.io/blogs/output/repo_home.html)
 
-[如何 Fork 本库，创建自己的博客站点？](create_your_blog.md)
+（如果您也想在 github 上创建类似博客系统，请从 [rewgt/blogs](https://github.com/rewgt/blogs) Fork 最新版本，[如何操作 ...](create_your_blog.md) ）
