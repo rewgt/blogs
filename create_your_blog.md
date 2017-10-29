@@ -15,7 +15,7 @@ git clone https://github.com/rewgt/shadow-server.git
 第 3 步，在本机克隆刚 fork 过来的 blogs 项目
 
 ``` bash
-git clone git@github.com:<your_account>/blogs.git wayne-blogs
+git clone https://github.com/<your_account>/blogs.git
 ```
 
 说明：请替换上面 `<your_account>` 字串。

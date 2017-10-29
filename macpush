@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo --- git status
+git status
+
+echo --- git add .
+git add .
+
+echo --- git commit -m $(date +%y-%m-%d)
+git commit -m $(date +%y-%m-%d)
+
+echo --- git push origin gh-pages
+git push origin gh-pages
