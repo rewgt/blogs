@@ -1,0 +1,63 @@
+3.5 index 索引表
+--------------
+
+&nbsp;
+
+#### 索引项与索引列表
+
+索引项用来定义章节的标题，一篇文档的章节标题有多个，所以我们可以定义多个索引项，然后再放置一个索引列表，索引列表相当于文章的目录生成器。文章初始导入时，系统会自动扫描，把索引条目整理到索引列表中。
+
+索引项与索引列表已安装为库化UI，两者分别用 `".pinp.index_item"` 与 `".pinp.index_list"` 引用。
+
+#### 转义标签示例
+
+定义索引项：
+
+``` html
+<div $='.pinp.index_item' node-tag='h3'>1. Chapter 1: About this document</div>
+```
+
+定义索引列表：
+
+``` html
+<div $='.pinp.index_list' width='{500}' height='{200}'></div>
+```
+
+#### 构件 component 接口
+
+索引项属于 P 类构件，索引列表是 Panel 构件。
+
+&nbsp;
+
+1) 索引项的 Component 接口
+
+1. `duals.nodeTag`   
+用来指示渲染输出的标签名，常用取值如：`'h3', 'h4', 'p', 'div'` 等。
+
+2. `props.name`   
+索引项下将自动生成 `<a name=anchor_str>desc</a>` 节点，如果有 `props.name` 值传入，它将用作 `anchor_str`，否则系统自动生成一个唯一 ID 字串。 一般不必指定 `props.name`，除非编程需要，比如固定一个锚点命名，以便另行编程提供跳转。
+
+3. `props.subType`   
+指示索引类别，缺省取值为 `"a"`，表示系统将生成 `<a name=anchor_str class='pinp-index-a'>desc</a>` 的锚点定义。让 `props.subType` 取不同值，可支持同一文档中使用多个索引列表，比如，章节索引建一张表（`props.subType='a'`），图文索引另建一张表（`props.subType='b'`）。
+
+4. `duals['html.']`   
+用来定义文档的章（Chapter）、节（Section）标题，要求用简短的单行文字。
+
+&nbsp;
+
+2) 索引列表的 Component 接口
+
+1. `props.subType`   
+含义与索引项的 `props.subType` 相同。
+
+2. `duals.itemWidth`   
+设置其下各跳转项的占宽，缺省取值 `0.9999`，如果想分两列显示，本属性应设为 `0.5`
+
+3. `duals.itemPadding`   
+设置其下各跳转项的 padding 属性，缺省取值 `[0,10,0,10]`
+
+&nbsp;
+
+说明：上述索引项与索引列表构件，对演示胶片或者非演示胶片的文档均适用。
+
+&nbsp;

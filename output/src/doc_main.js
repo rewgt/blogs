@@ -887,6 +887,8 @@ function commentId__(value,oldValue) {
   function showComment(issue,comments) {
     var bComm = [];
     comments.forEach( function(item) {
+      if (!item.body) return;  // ignore empty comment
+      
       var user = item.user || {};
       bComm.push( {
         id: item.id,

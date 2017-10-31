@@ -1,0 +1,40 @@
+3.4 slides 信息
+--------------
+
+&nbsp;
+
+#### 三种构件
+
+有三种构件用来引用 slide 胶片的若干属性，包括：
+
+- 文章标题，引用路径：`".pinp.slides.title"`
+- 胶片当前页号，引用路径：`".pinp.slides.index"`
+- 胶片总页数，引用路径：`".pinp.slides.pages"`
+
+这三项均为 `Span` 构件。
+
+#### 转义标签示例
+
+引用文章标题：
+
+``` html
+<div $=P><span $='.pinp.slides.title'></span></div>
+```
+
+引用当前构件所处的页位置，用 “当前页号 / 总页数” 表示：
+
+``` html
+<div $=P>
+  <span $='.pinp.slides.index'></span>
+  <span $=Span> / </span>
+  <span $='.pinp.slides.pages'></span>
+</div>
+```
+
+其中，当前页号从 `1` 开始编号。
+
+#### 构件 component 接口
+
+这三种构件均在 Component 挂载后，自动提取相关信息，而且只提取一次。比如，引用 `'.pinp.slides.title'` 的 Span 构件，将从 `document.title` 获取字串值，引用 `'.pinp.slides.index'` 则分析自身构件位于第几张胶片页中，所得序号（转为字串值）赋给当前构件的 `duals['html.']` 属性。
+
+&nbsp;

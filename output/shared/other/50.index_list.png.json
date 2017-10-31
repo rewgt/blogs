@@ -1,0 +1,4 @@
+{
+  "name":"index_list",
+  "widget":["RefDiv",{"$":".pinp.index_list","klass":"default-large-small p1-p2-p3-p0 visible-auto-hidden","width":500,"height":260,"subType":"a","itemWidth":0.9999,"itemPadding":[0,10,0,10]}]
+}

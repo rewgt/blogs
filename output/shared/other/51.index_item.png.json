@@ -1,0 +1,5 @@
+{
+  "name":"index_item",
+  "widget": ["RefDiv",{"$":".pinp.index_item","data-html.opt":"edit","klass":"default-large-small p1-p2-p3-p0 default-align_center-right","nodeTag":"h3","subType":"a","html.":"1. Chapter A"}],
+  "scene": ["RefDiv",{"$":".pinp.index_item","data-html.opt":"edit","data-group.optid":"pinp/blogs/steps","klass":"default-large-small p1-p2-p3-p0 default-align_center-right","width":500,"nodeTag":"h3","subType":"a","html.":"1. Chapter A"}]
+}

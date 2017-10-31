@@ -108,11 +108,6 @@ function analyseCfg(bRet,sInput) {
   }
 }
 
-/* (function() {  // for testing
-  var bRet = [], s = ' // ex=1\n\ntype=line1\n35 42 OK,74.5,32\n\n1 2 3,4 5\n---\na.b.c=3.5\na.d=true\n87 abc ef 92\n1 2 3\n';
-  if (analyseCfg(bRet,s)) console.log(JSON.stringify(bRet));
-})(); */
-
 var extras_ = ['clear','stop','resize','reset','toBase64Image','generateLegend','update','getElementAtEvent','getElementsAtEvent','getDatasetAtEvent','getDatasetMeta'];
 var strokeColor_ = [ '51,153,102','153,102,0','51,102,153','192,0,0',
   '102,102,51','255,204,102','102,153,0','204,0,153',
@@ -699,9 +694,228 @@ idSetter['.pinp.mini_audio.player'] = function(value,oldValue) {
   }
 };
 
+var index_item_id_ = 0;
+
+idSetter['.pinp.index_item'] = function(value,oldValue) {
+  if (value <= 2) {
+    if (value == 1) {
+      var sName = this.props.name;
+      if (sName && typeof sName == 'string')
+        this.name_ = sName;
+      else this.name_ = '_name' + (++index_item_id_);
+      
+      this.defineDual('nodeTag', function(value,oldValue) {
+        if (value && typeof value == 'string')
+          this.state['tagName.'] = value.toLowerCase();
+      });
+    }
+    return;
+  }
+  
+  var sHtml = this.state['html.'] || '', sSubType = this.props.subType || 'a';
+  var ele = utils.loadElement(['A',{key:'a',klass:'pinp-index-'+sSubType,name:this.name_,'html.':sHtml}]);
+  utils.setChildren(this,[ele]);
+};
+
+function getTopNode_() {
+  var topWdgt = creator.topmostWidget_;  // same to: W.W('.body')
+  var topComp = topWdgt && topWdgt.component;
+  var topNode = topComp && topComp.getHtmlNode();
+  return topNode || null;
+}
+
+function isScenePage_(node) {
+  return node.nodeName == 'ARTICLE' && node.classList.contains('rewgt-scene');
+}
+
+idSetter['.pinp.index_list'] = function(value,oldValue) {
+  if (value <= 2) {
+    if (value == 1) {
+      this.defineDual(['data','itemWidth','itemPadding']);
+      
+      if (!W.__design__) {
+        this.setEvent({'$onClick': function(event) {
+          var targ = event.target;
+          if (targ.nodeName == 'A') {
+            var sName = targ.getAttribute('data-name');
+            if (!sName) {
+              var idx = parseInt(targ.getAttribute('data-idx') || 0);
+              if (!isNaN(idx) && idx >= 0)
+                utils.pageCtrl.gotoPage(idx);
+            }
+            else {
+              try {
+                var node = document.querySelector('a[name="' + sName + '"]');
+                if (node) node.scrollIntoView(true);  // jump to <a name="xx">
+              }
+              catch(e) {}
+            }
+          }
+        }});
+      }
+    }
+    else if (value == 2)
+      setTimeout(scanIndex,1200,this);
+    return;
+  }
+  
+  var bData = this.state.data;
+  if (!Array.isArray(bData)) return;
+  
+  var bList = [], itemWidth = this.state.itemWidth || 0.9999;
+  var itemPad = this.state.itemPadding;
+  if (!itemPad) itemPad = [0,10,0,10];
+  
+  bData.forEach( function(item,idx) {
+    var itemId = item[0], isNum = typeof itemId == 'number';
+    var props = {key:'a','html.':item[1],href:'javascript:void(0)'};
+    if (isNum)
+      props['data-idx'] = itemId;
+    else props['data-name'] = itemId + '';
+    
+    var bSub = [ ['Div2',{key:'div'+idx,width:itemWidth,padding:itemPad}], ['A',props] ];
+    if (isNum)
+      bSub.push(['Div2',{key:'pg','html.':(itemId+1)+'',style:{display:'inline-block',cssFloat:'right'}}]);
+    bList.push(bSub);
+  })
+  utils.setChildren(this,bList);
+  
+  function scanIndex(self) {
+    var topNode = getTopNode_();
+    if (!topNode) return;
+    
+    var sSubType = self.props.subType || 'a';
+    var bOut = [], nodes = [];
+    try {
+      nodes = topNode.querySelectorAll('.pinp-index-'+sSubType);
+    }
+    catch(e) { }
+    
+    for (var i=0,node; node = nodes[i]; i++) {
+      var sName,sDesc, isAnchor = node.nodeName == 'A';
+      if (isAnchor) {
+        sName = node.getAttribute('name') || '';
+        sDesc = node.textContent;
+      }
+      
+      var sceneNode = null;
+      while (node) {
+        var node2 = node.parentNode;
+        if (node2 === topNode) {
+          if (isScenePage_(node))
+            sceneNode = node;
+          break;
+        }
+        else node = node2;
+      }
+      
+      if (sceneNode) {
+        var idx, sKey = utils.keyOfNode(sceneNode);
+        if (sKey) {
+          if (W.__design__) { // no utils.pageCtrl when W.__design__
+            idx = -1;
+            for (var iTmp=0,node3; node3 = topNode.children[iTmp]; iTmp++) {
+              if (isScenePage_(node3)) {
+                idx += 1;
+                if (node3 === sceneNode)
+                  break;
+              }
+            }
+          }
+          else {
+            if (utils.pageCtrl.keys)
+              idx = utils.pageCtrl.keys.indexOf(sKey);
+            else idx = -1;
+          }
+          if (idx >= 0)
+            bOut.push([idx,sDesc]);
+        }
+      }
+      else {
+        if (isAnchor && sName)
+          bOut.push([sName,sDesc]);
+      }
+    }
+    
+    self.duals.data = bOut;
+  }
+};
+
+idSetter['.pinp.slides.title'] = function(value,oldValue) {
+  if (value == 2) {
+    setTimeout( function(self) {
+      self.duals['html.'] = document.title || '';
+    },1200,this);
+  }
+};
+
+idSetter['.pinp.slides.index'] = function(value,oldValue) {
+  if (value == 2) {
+    setTimeout( function(self) {
+      var currIndex = -1;
+      
+      var topNode = getTopNode_(), node = self.getHtmlNode();
+      if (topNode && node) {
+        var sceneNode = null;
+        while (node) {
+          var node2 = node.parentNode;
+          if (node2 === topNode) {
+            if (isScenePage_(node))
+              sceneNode = node;
+            break;
+          }
+          else node = node2;
+        }
+        
+        var sKey = sceneNode && utils.keyOfNode(sceneNode);
+        if (sKey) {
+          if (W.__design__) {
+            for (var i=0,node3; node3 = topNode.children[i]; i++) {
+              if (isScenePage_(node3)) {
+                currIndex += 1;
+                if (node3 === sceneNode)
+                  break;
+              }
+            }
+          }
+          else currIndex = utils.pageCtrl.keys.indexOf(sKey);
+        }
+      }
+      
+      self.duals['html.'] = ((currIndex+1) + '');
+    },1200,this);
+  }
+};
+
+var total_slides_ = null;
+
+idSetter['.pinp.slides.pages'] = function(value,oldValue) {
+  if (value == 2) {
+    setTimeout( function(self) {
+      if (total_slides_ === null) {  // not initialized yet
+        if (W.__design__) {
+          var topNode = getTopNode_();
+          if (!topNode) return;
+          
+          total_slides_ = 0;
+          for (var i=0,node; node=topNode.children[i]; i++) {
+            if (isScenePage_(node))
+              total_slides_ += 1;
+          }
+        }
+        else total_slides_ = utils.pageCtrl.keys.length;
+      }
+      self.duals['html.'] = (total_slides_ + '');
+    },1200,this);
+  }
+};
+
 var containNode_    = null;
+var indexItemEle_   = null;
+var indexListEle_   = null;
 var chartElement_   = null;
-var docInfoElement_ = null;
+var docDefElement_  = null;
+var slideInfoElement_ = null;
 
 main.$$onLoad.push( function(callback) {
   var wtc;
@@ -766,8 +980,30 @@ main.$$onLoad.push( function(callback) {
     }];
   }
   
-  if (window.Chart) {
-    utils.setVendorLib('pinp', function(template) {
+  if (!indexItemEle_)
+    indexItemEle_ = utils.loadElement(['H3',{key:'index_item',$id__:'.pinp.index_item',nodeTag:'h3',subType:'a'}]);
+  if (!indexListEle_)
+    indexListEle_ = utils.loadElement(['Panel',{key:'index_list',className:'rewgt-panel col-reverse',$id__:'.pinp.index_list',subType:'a'}]);
+  
+  if (!docDefElement_) {
+    docDefElement_ = utils.loadElement( [['Div',{key:'doc_info'}],
+      makeDocInfoEle_('title'),
+      makeDocInfoEle_('desc'),
+      makeDocInfoEle_('keyword'),
+      makeDocInfoEle_('thumb'),
+    ]);
+  }
+  
+  if (!slideInfoElement_) {
+    slideInfoElement_ = utils.loadElement( [['P',{key:'slides'}],
+      ['Span',{key:'title',$id__:'.pinp.slides.title'}],
+      ['Span',{key:'index',$id__:'.pinp.slides.index'}],
+      ['Span',{key:'pages',$id__:'.pinp.slides.pages'}],
+    ]);
+  }
+  
+  utils.setVendorLib('pinp', function(template) {
+    if (window.Chart) {
       if (!chartElement_) {
         chartElement_ = utils.loadElement( [['P',{key:'charts'}],
           makeChartEle_('line'),
@@ -779,21 +1015,17 @@ main.$$onLoad.push( function(callback) {
           makeChartEle_('bubble'),
         ]);
       }
-      if (!docInfoElement_) {
-        docInfoElement_ = utils.loadElement( [['Div',{key:'doc_info'}],
-          makeDocInfoEle_('title'),
-          makeDocInfoEle_('desc'),
-          makeDocInfoEle_('keyword'),
-          makeDocInfoEle_('thumb'),
-        ]);
-      }
       
-      template.setChild(chartElement_,docInfoElement_, function(changed) {
+      template.setChild(indexItemEle_,indexListEle_,docDefElement_,slideInfoElement_,chartElement_, function(changed) {
         callback();
       });
-    });
-  }
-  else callback();
+    }
+    else {
+      template.setChild(indexItemEle_,indexListEle_,docDefElement_,slideInfoElement_, function(changed) {
+        callback();
+      });
+    }
+  });
 });
 
 if (!W.__design__) {

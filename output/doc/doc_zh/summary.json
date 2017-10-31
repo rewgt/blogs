@@ -13,6 +13,8 @@
 [0,"3.","编程接口","md/3.program_api.txt"],
 [1,"3.1.","chartJS统计图","md/3.1.api_chartjs.txt"],
 [1,"3.2.","mini_audio接口","md/3.2.api_audio.txt"],
-[1,"3.3.","doc_info文档信息","md/3.3.api_docinfo.txt"]
+[1,"3.3.","doc_info文档信息","md/3.3.api_docinfo.txt"],
+[1,"3.4.","slides信息","md/3.4.api_slides.txt"],
+[1,"3.5.","index索引表","md/3.5.api_index.txt"]
 
 ]

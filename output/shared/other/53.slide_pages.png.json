@@ -1,0 +1,13 @@
+{
+  "name":"slide_pages",
+  "widget": [ ["P",{"klass":"default-large-small p1-p2-p3-p0 align_center-right-default"}],
+    ["RefSpan",{"$":".pinp.slides.index"}],
+    ["Span",{"html.":" / "}],
+    ["RefSpan",{"$":".pinp.slides.pages"}]
+  ],
+  "scene": [ ["P",{"data-group.optid":"pinp/blogs/steps","klass":"default-large-small p1-p2-p3-p0 align_center-right-default","width":100}],
+    ["RefSpan",{"$":".pinp.slides.index"}],
+    ["Span",{"html.":" / "}],
+    ["RefSpan",{"$":".pinp.slides.pages"}]
+  ]
+}

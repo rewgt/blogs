@@ -1,0 +1,9 @@
+{
+  "name":"slide_title",
+  "widget": [ ["P",{"klass":"default-large-small p1-p2-p3-p0 default-align_center-right"}],
+    ["RefSpan",{"$":".pinp.slides.title"}]
+  ],
+  "scene": [ ["P",{"data-group.optid":"pinp/blogs/steps","klass":"default-large-small p1-p2-p3-p0 default-align_center-right","width":500}],
+    ["RefSpan",{"$":".pinp.slides.title"}]
+  ]
+}
