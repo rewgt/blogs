@@ -58,6 +58,8 @@ git push origin gh-pages
 https://www.pinp.io/git-blog/comments/zh
 ``` 
 
+如下图，其它选项使用缺省值。
+
 ![config webhook](output/webhook.jpg)
 
 说明：
