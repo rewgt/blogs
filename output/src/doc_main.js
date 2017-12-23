@@ -268,7 +268,7 @@ function listId__(value,oldValue) {
     
     var jsonXImg = ['P',{key:'thumb',klass:'start-end-stretch-default-self_center',width:150,height:120}];
     jsonXImg = [jsonXImg,['Img', {key:'img',name:sKey,src:sThumb,
-      style:{cursor:'pointer',width:'100%',height:'100%'},
+      style:{cursor:'pointer',width:'100%',height:'100%',borderRadius:'3px'},
       $onClick: tryOpenDoc,
     }]];
     
