@@ -724,7 +724,19 @@ function showDocList(locOpt,urlOpt,callback) {  // for index.html
   
   utils.ajax( { type:'GET', url:'config.json', dataType:'json',
     success: function(data,statusText,xhr) {
-      renewFromConfig(data,callback);
+      renewFromConfig(data, function() {
+        if (data.homepage) {
+          setTimeout( function() {
+            var sFile = data.homepage.split('/').pop(), bTmp = sFile.split('.');
+            if (bTmp.length > 1) bTmp.pop();               // remove '.txt'
+            var sKeyId = bTmp.join('_').replace(/-/g,'_');
+            
+            tryOpenDoc_(sKeyId);
+          },100);
+        }
+        
+        callback(); // this callback come from $$onLoad
+      });
     },
     
     error: function(xhr,statusText) {
